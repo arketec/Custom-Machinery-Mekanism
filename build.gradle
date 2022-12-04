@@ -86,6 +86,18 @@ repositories {
             includeGroup "dev.ftb.mods"
         }
     }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+        content {
+            includeGroup "mezz.jei"
+        }
+    }
+    maven {
+        name = 'BlameJared Maven'
+        url = 'https://maven.blamejared.com'
+    }
 }
 
 dependencies {
@@ -102,11 +114,22 @@ dependencies {
     api "frinn.custommachinery:CustomMachinery-api:${project.minecraft_version}-${project.custommachinery_version}"
     modLocalRuntime "frinn.custommachinery:CustomMachinery-forge:${project.minecraft_version}-${project.custommachinery_version}"
 
+    //JEI
+    modLocalRuntime modCompileOnly("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
+    modLocalRuntime modCompileOnly("mezz.jei:jei-${project.minecraft_version}-forge-api:${project.jei_version}")
+    modLocalRuntime("mezz.jei:jei-${project.minecraft_version}-forge:${project.jei_version}") {transitive = false}
+
     //Mekanism
     modImplementation "mekanism:Mekanism:${project.mekanism_version}"
 
     //KubeJS
-    modApi "dev.latvian.mods:kubejs:${rootProject.kubejs_version}"
+    modLocalRuntime modCompileOnly("dev.latvian.mods:kubejs-forge:${rootProject.kubejs_version}")
+
+    //Crafttweaker
+    modLocalRuntime modCompileOnly("com.blamejared.crafttweaker:CraftTweaker-forge-${project.minecraft_version}:${project.ct_version}")
+
+    //The one probe
+    modLocalRuntime("mcjty.theoneprobe:theoneprobe:${project.top_version}") {transitive = false}
 }
 
 processResources {
