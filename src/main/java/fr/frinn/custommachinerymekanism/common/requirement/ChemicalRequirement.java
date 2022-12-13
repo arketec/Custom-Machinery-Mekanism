@@ -22,7 +22,7 @@ public abstract class ChemicalRequirement<C extends Chemical<C>, S extends Chemi
         return RecordCodecBuilder.create(fluidRequirementInstance ->
                 fluidRequirementInstance.group(
                         EnumCodec.of(RequirementIOMode.class).fieldOf("mode").forGetter(AbstractRequirement::getMode),
-                        chemicalCodec.fieldOf("gas").forGetter(requirement -> requirement.chemical),
+                        chemicalCodec.fieldOf("chemical").forGetter(requirement -> requirement.chemical),
                         Codec.LONG.fieldOf("amount").forGetter(requirement -> requirement.amount),
                         CodecLogger.loggedOptional(Codec.doubleRange(0.0, 1.0),"chance", 1.0D).forGetter(AbstractChanceableRequirement::getChance),
                         CodecLogger.loggedOptional(Codec.STRING,"tank", "").forGetter(requirement -> requirement.tank)

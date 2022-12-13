@@ -4,39 +4,39 @@ import fr.frinn.custommachinery.api.integration.kubejs.RecipeJSBuilder;
 import fr.frinn.custommachinery.api.requirement.RequirementIOMode;
 import fr.frinn.custommachinerymekanism.common.requirement.GasPerTickRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.GasRequirement;
-import mekanism.api.chemical.gas.Gas;
+import mekanism.api.chemical.gas.GasStack;
 
 public interface GasRequirementJS extends RecipeJSBuilder {
 
-    default RecipeJSBuilder requireGas(Gas gas, long amount) {
-        return requireGas(gas, amount, "");
+    default RecipeJSBuilder requireGas(GasStack stack) {
+        return requireGas(stack, "");
     }
 
-    default RecipeJSBuilder requireGas(Gas gas, long amount, String tank) {
-        return addRequirement(new GasRequirement(RequirementIOMode.INPUT, gas, amount, tank));
+    default RecipeJSBuilder requireGas(GasStack stack, String tank) {
+        return addRequirement(new GasRequirement(RequirementIOMode.INPUT, stack.getType(), stack.getAmount(), tank));
     }
 
-    default RecipeJSBuilder requireGasPerTick(Gas gas, long amount) {
-        return requireGasPerTick(gas, amount, "");
+    default RecipeJSBuilder requireGasPerTick(GasStack stack) {
+        return requireGasPerTick(stack, "");
     }
 
-    default RecipeJSBuilder requireGasPerTick(Gas gas, long amount, String tank) {
-        return addRequirement(new GasPerTickRequirement(RequirementIOMode.INPUT, gas, amount, tank));
+    default RecipeJSBuilder requireGasPerTick(GasStack stack, String tank) {
+        return addRequirement(new GasPerTickRequirement(RequirementIOMode.INPUT, stack.getType(), stack.getAmount(), tank));
     }
 
-    default RecipeJSBuilder produceGas(Gas gas, long amount) {
-        return produceGas(gas, amount, "");
+    default RecipeJSBuilder produceGas(GasStack stack) {
+        return produceGas(stack, "");
     }
 
-    default RecipeJSBuilder produceGas(Gas gas, long amount, String tank) {
-        return addRequirement(new GasRequirement(RequirementIOMode.OUTPUT, gas, amount, tank));
+    default RecipeJSBuilder produceGas(GasStack stack, String tank) {
+        return addRequirement(new GasRequirement(RequirementIOMode.OUTPUT, stack.getType(), stack.getAmount(), tank));
     }
 
-    default RecipeJSBuilder produceGasPerTick(Gas gas, long amount) {
-        return produceGasPerTick(gas, amount, "");
+    default RecipeJSBuilder produceGasPerTick(GasStack stack) {
+        return produceGasPerTick(stack, "");
     }
 
-    default RecipeJSBuilder produceGasPerTick(Gas gas, long amount, String tank) {
-        return addRequirement(new GasPerTickRequirement(RequirementIOMode.OUTPUT, gas, amount, tank));
+    default RecipeJSBuilder produceGasPerTick(GasStack stack, String tank) {
+        return addRequirement(new GasPerTickRequirement(RequirementIOMode.OUTPUT, stack.getType(), stack.getAmount(), tank));
     }
 }

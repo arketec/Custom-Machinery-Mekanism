@@ -113,7 +113,7 @@ dependencies {
 
     // Custom Machinery
     api "frinn.custommachinery:CustomMachinery-api:${project.minecraft_version}-${project.custommachinery_version}"
-    modLocalRuntime "frinn.custommachinery:CustomMachinery-forge:${project.minecraft_version}-${project.custommachinery_version}"
+    modLocalRuntime modCompileOnly("frinn.custommachinery:CustomMachinery-forge:${project.minecraft_version}-${project.custommachinery_version}")
 
     //JEI
     modLocalRuntime modCompileOnly("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
