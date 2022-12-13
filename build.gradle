@@ -268,7 +268,7 @@ publishing {
                     token = MODRINTH_TOKEN
                     id = "VFxg3xmP"
                     relations {
-                        depends "custom_machinery"
+                        depends "custom-machinery"
                         depends "mekanism"
                         optional "kubejs"
                     }
