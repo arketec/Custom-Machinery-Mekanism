@@ -5,7 +5,6 @@ import fr.frinn.custommachinery.api.guielement.IGuiElement;
 import fr.frinn.custommachinery.api.integration.jei.IJEIIngredientWrapper;
 import fr.frinn.custommachinery.api.integration.jei.IRecipeHelper;
 import fr.frinn.custommachinery.api.requirement.RequirementIOMode;
-import fr.frinn.custommachinerymekanism.Registration;
 import fr.frinn.custommachinerymekanism.common.guielement.ChemicalGuiElement;
 import mekanism.api.chemical.Chemical;
 import mekanism.api.chemical.ChemicalStack;
@@ -43,7 +42,7 @@ public class ChemicalIngredientWrapper<C extends Chemical<C>, S extends Chemical
 
     @Override
     public boolean setupRecipe(IRecipeLayoutBuilder builder, int xOffset, int yOffset, IGuiElement element, IRecipeHelper helper) {
-        if(!(element instanceof ChemicalGuiElement<?> chemicalElement) || element.getType() != Registration.GAS_GUI_ELEMENT.get())
+        if(!(element instanceof ChemicalGuiElement<?> chemicalElement))
             return false;
 
         S ingredient = this.stackBuilder.apply(this.chemical, this.amount);

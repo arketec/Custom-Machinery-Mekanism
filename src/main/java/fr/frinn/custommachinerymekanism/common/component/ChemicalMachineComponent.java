@@ -184,6 +184,8 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
             this.config = config;
         }
 
+        public abstract boolean isSameType(ChemicalStack<?> stack);
+
         @Override
         public String getId() {
             return this.id;
@@ -193,11 +195,11 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
         public boolean canAccept(Object ingredient, boolean isInput, IMachineComponentManager manager) {
             if(isInput != this.mode.isInput())
                 return false;
-            if(ingredient instanceof ChemicalStack<?> stack) {
+            if(ingredient instanceof ChemicalStack<?> stack && isSameType(stack)) {
                 return this.filter.stream().anyMatch(g -> g == stack.getType()) == this.whitelist;
             } else if(ingredient instanceof List<?> list) {
                 return list.stream().allMatch(object -> {
-                    if(object instanceof ChemicalStack<?> stack)
+                    if(object instanceof ChemicalStack<?> stack && isSameType(stack))
                         return this.filter.stream().anyMatch(g -> g == stack.getType()) == this.whitelist;
                     return false;
                 });

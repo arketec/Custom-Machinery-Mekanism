@@ -7,6 +7,7 @@ import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.impl.component.config.SideConfig;
 import fr.frinn.custommachinerymekanism.Registration;
 import fr.frinn.custommachinerymekanism.common.utils.Codecs;
+import mekanism.api.chemical.ChemicalStack;
 import mekanism.api.chemical.slurry.Slurry;
 import mekanism.api.chemical.slurry.SlurryStack;
 import net.minecraft.nbt.CompoundTag;
@@ -45,6 +46,11 @@ public class SlurryMachineComponent extends ChemicalMachineComponent<Slurry, Slu
 
         public Template(String id, long capacity, ComponentIOMode mode, List<Slurry> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
             super(id, capacity, mode, filter, whitelist, maxInput, maxOutput, config);
+        }
+
+        @Override
+        public boolean isSameType(ChemicalStack<?> stack) {
+            return stack instanceof SlurryStack;
         }
 
         @Override
