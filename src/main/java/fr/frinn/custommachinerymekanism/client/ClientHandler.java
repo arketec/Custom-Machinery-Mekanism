@@ -6,6 +6,7 @@ import fr.frinn.custommachinery.api.integration.jei.RegisterGuiElementJEIRendere
 import fr.frinn.custommachinerymekanism.Registration;
 import fr.frinn.custommachinerymekanism.client.jei.element.ChemicalGuiElementJeiRenderer;
 import fr.frinn.custommachinerymekanism.client.render.element.GasGuiElementWidget;
+import fr.frinn.custommachinerymekanism.client.render.element.HeatGuiElementWidget;
 import fr.frinn.custommachinerymekanism.client.render.element.InfusionGuiElementWidget;
 import fr.frinn.custommachinerymekanism.client.render.element.PigmentGuiElementWidget;
 import fr.frinn.custommachinerymekanism.client.render.element.SlurryGuiElementWidget;
@@ -27,6 +28,7 @@ public class ClientHandler {
         event.register(Registration.INFUSION_GUI_ELEMENT.get(), InfusionGuiElementWidget::new);
         event.register(Registration.PIGMENT_GUI_ELEMENT.get(), PigmentGuiElementWidget::new);
         event.register(Registration.SLURRY_GUI_ELEMENT.get(), SlurryGuiElementWidget::new);
+        event.register(Registration.HEAT_GUI_ELEMENT.get(), HeatGuiElementWidget::new);
     }
 
     private static void registerGuiElementJeiRenderers(RegisterGuiElementJEIRendererEvent event) {

@@ -4,6 +4,9 @@ import fr.frinn.custommachinery.api.component.IMachineComponentManager;
 import fr.frinn.custommachinery.api.machine.MachineTile;
 import fr.frinn.custommachinerymekanism.client.ClientHandler;
 import fr.frinn.custommachinerymekanism.common.component.handler.GasComponentHandler;
+import fr.frinn.custommachinerymekanism.common.component.handler.InfusionComponentHandler;
+import fr.frinn.custommachinerymekanism.common.component.handler.PigmentComponentHandler;
+import fr.frinn.custommachinerymekanism.common.component.handler.SlurryComponentHandler;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -52,6 +55,26 @@ public class CustomMachineryMekanism {
                     if(capability == Capabilities.GAS_HANDLER_CAPABILITY)
                         return manager.getComponentHandler(Registration.GAS_MACHINE_COMPONENT.get())
                                 .map(handler -> ((GasComponentHandler)handler).getSidedHandler(side))
+                                .orElse(LazyOptional.empty())
+                                .cast();
+                    else if(capability == Capabilities.INFUSION_HANDLER_CAPABILITY)
+                        return manager.getComponentHandler(Registration.INFUSION_MACHINE_COMPONENT.get())
+                                .map(handler -> ((InfusionComponentHandler)handler).getSidedHandler(side))
+                                .orElse(LazyOptional.empty())
+                                .cast();
+                    else if(capability == Capabilities.PIGMENT_HANDLER_CAPABILITY)
+                        return manager.getComponentHandler(Registration.PIGMENT_MACHINE_COMPONENT.get())
+                                .map(handler -> ((PigmentComponentHandler)handler).getSidedHandler(side))
+                                .orElse(LazyOptional.empty())
+                                .cast();
+                    else if(capability == Capabilities.SLURRY_HANDLER_CAPABILITY)
+                        return manager.getComponentHandler(Registration.SLURRY_MACHINE_COMPONENT.get())
+                                .map(handler -> ((SlurryComponentHandler)handler).getSidedHandler(side))
+                                .orElse(LazyOptional.empty())
+                                .cast();
+                    else if(capability == Capabilities.HEAT_HANDLER_CAPABILITY)
+                        return manager.getComponent(Registration.HEAT_MACHINE_COMPONENT.get())
+                                .map(component -> component.getHeatHandler(side))
                                 .orElse(LazyOptional.empty())
                                 .cast();
 
