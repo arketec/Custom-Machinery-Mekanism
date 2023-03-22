@@ -1,8 +1,7 @@
 package fr.frinn.custommachinerymekanism.common.guielement;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.frinn.custommachinery.api.ICustomMachineryAPI;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.api.guielement.GuiElementType;
 import fr.frinn.custommachinery.api.guielement.IComponentGuiElement;
@@ -15,8 +14,8 @@ public class HeatGuiElement extends AbstractTexturedGuiElement implements ICompo
 
     private static final ResourceLocation BASE_TEXTURE = ICustomMachineryAPI.INSTANCE.rl("textures/gui/base_fluid_storage.png");
 
-    public static final Codec<HeatGuiElement> CODEC = RecordCodecBuilder.create(instance ->
-            makeBaseTexturedCodec(instance, BASE_TEXTURE).apply(instance, HeatGuiElement::new)
+    public static final NamedCodec<HeatGuiElement> CODEC = NamedCodec.record(instance ->
+            makeBaseTexturedCodec(instance, BASE_TEXTURE).apply(instance, HeatGuiElement::new), "Heat gui element"
     );
 
 

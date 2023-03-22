@@ -1,14 +1,11 @@
 package fr.frinn.custommachinerymekanism.common.requirement;
 
 import com.mojang.datafixers.util.Function4;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.crafting.CraftingResult;
 import fr.frinn.custommachinery.api.crafting.ICraftingContext;
 import fr.frinn.custommachinery.api.integration.jei.IJEIIngredientRequirement;
 import fr.frinn.custommachinery.api.requirement.RequirementIOMode;
-import fr.frinn.custommachinery.impl.codec.CodecLogger;
-import fr.frinn.custommachinery.impl.codec.EnumCodec;
 import fr.frinn.custommachinery.impl.requirement.AbstractChanceableRequirement;
 import fr.frinn.custommachinery.impl.requirement.AbstractRequirement;
 import fr.frinn.custommachinerymekanism.common.component.handler.ChemicalComponentHandler;
@@ -18,19 +15,19 @@ import net.minecraft.network.chat.TranslatableComponent;
 
 public abstract class ChemicalRequirement<C extends Chemical<C>, S extends ChemicalStack<C>, T extends ChemicalComponentHandler<C, S, ?, ?>> extends AbstractChanceableRequirement<T> implements IJEIIngredientRequirement<S> {
 
-    public static <C extends Chemical<C>, S extends ChemicalStack<C>, T extends ChemicalComponentHandler<C, S, ?, ?>, R extends ChemicalRequirement<C, S, T>> Codec<R> makeCodec(Codec<C> chemicalCodec, Function4<RequirementIOMode, C, Long, String, R> builder) {
-        return RecordCodecBuilder.create(fluidRequirementInstance ->
+    public static <C extends Chemical<C>, S extends ChemicalStack<C>, T extends ChemicalComponentHandler<C, S, ?, ?>, R extends ChemicalRequirement<C, S, T>> NamedCodec<R> makeCodec(NamedCodec<C> chemicalCodec, Function4<RequirementIOMode, C, Long, String, R> builder, String name) {
+        return NamedCodec.record(fluidRequirementInstance ->
                 fluidRequirementInstance.group(
-                        EnumCodec.of(RequirementIOMode.class).fieldOf("mode").forGetter(AbstractRequirement::getMode),
+                        RequirementIOMode.CODEC.fieldOf("mode").forGetter(AbstractRequirement::getMode),
                         chemicalCodec.fieldOf("chemical").forGetter(requirement -> requirement.chemical),
-                        Codec.LONG.fieldOf("amount").forGetter(requirement -> requirement.amount),
-                        CodecLogger.loggedOptional(Codec.doubleRange(0.0, 1.0),"chance", 1.0D).forGetter(AbstractChanceableRequirement::getChance),
-                        CodecLogger.loggedOptional(Codec.STRING,"tank", "").forGetter(requirement -> requirement.tank)
+                        NamedCodec.LONG.fieldOf("amount").forGetter(requirement -> requirement.amount),
+                        NamedCodec.doubleRange(0.0, 1.0).optionalFieldOf("chance", 1.0D).forGetter(AbstractChanceableRequirement::getChance),
+                        NamedCodec.STRING.optionalFieldOf("tank", "").forGetter(requirement -> requirement.tank)
                 ).apply(fluidRequirementInstance, (mode, gas, amount, chance, tank) -> {
-                    R requirement = builder.apply(mode, gas, amount, tank);
-                    requirement.setChance(chance);
-                    return requirement;
-                })
+                        R requirement = builder.apply(mode, gas, amount, tank);
+                        requirement.setChance(chance);
+                        return requirement;
+                }), name
         );
     }
 

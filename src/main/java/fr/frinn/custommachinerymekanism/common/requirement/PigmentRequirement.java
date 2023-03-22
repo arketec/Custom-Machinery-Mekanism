@@ -1,6 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.requirement;
 
-import com.mojang.serialization.Codec;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.api.crafting.IMachineRecipe;
 import fr.frinn.custommachinery.api.integration.jei.IJEIIngredientWrapper;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class PigmentRequirement extends ChemicalRequirement<Pigment, PigmentStack, PigmentComponentHandler> {
 
-    public static final Codec<PigmentRequirement> CODEC = makeCodec(Codecs.PIGMENT, PigmentRequirement::new);
+    public static final NamedCodec<PigmentRequirement> CODEC = makeCodec(Codecs.PIGMENT, PigmentRequirement::new, "Pigment requirement");
 
     public PigmentRequirement(RequirementIOMode mode, Pigment chemical, long amount, String tank) {
         super(mode, chemical, amount, tank);

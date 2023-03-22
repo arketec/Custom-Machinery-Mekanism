@@ -1,6 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.requirement;
 
-import com.mojang.serialization.Codec;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.api.crafting.IMachineRecipe;
 import fr.frinn.custommachinery.api.integration.jei.IJEIIngredientWrapper;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class SlurryPerTickRequirement extends ChemicalPerTickRequirement<Slurry, SlurryStack, SlurryComponentHandler> {
 
-    public static final Codec<SlurryPerTickRequirement> CODEC = makeCodec(Codecs.SLURRY, SlurryPerTickRequirement::new);
+    public static final NamedCodec<SlurryPerTickRequirement> CODEC = makeCodec(Codecs.SLURRY, SlurryPerTickRequirement::new, "Slurry-per-tick requirement");
 
     public SlurryPerTickRequirement(RequirementIOMode mode, Slurry chemical, long amount, String tank) {
         super(mode, chemical, amount, tank);

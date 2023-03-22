@@ -1,24 +1,17 @@
 package fr.frinn.custommachinerymekanism.common.utils;
 
-import com.mojang.serialization.Codec;
-import fr.frinn.custommachinery.impl.codec.EnhancedListCodec;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
+import fr.frinn.custommachinerymekanism.Registration;
 import mekanism.api.MekanismAPI;
 import mekanism.api.chemical.gas.Gas;
 import mekanism.api.chemical.infuse.InfuseType;
 import mekanism.api.chemical.pigment.Pigment;
 import mekanism.api.chemical.slurry.Slurry;
-import net.minecraft.util.ExtraCodecs;
-
-import java.util.List;
 
 public class Codecs {
 
-    public static final Codec<Gas> GAS = ExtraCodecs.lazyInitializedCodec(() -> MekanismAPI.gasRegistry().getCodec());
-    public static final Codec<InfuseType> INFUSE_TYPE = ExtraCodecs.lazyInitializedCodec(() -> MekanismAPI.infuseTypeRegistry().getCodec());
-    public static final Codec<Pigment> PIGMENT = ExtraCodecs.lazyInitializedCodec(() -> MekanismAPI.pigmentRegistry().getCodec());
-    public static final Codec<Slurry> SLURRY = ExtraCodecs.lazyInitializedCodec(() -> MekanismAPI.slurryRegistry().getCodec());
-
-    public static <T> Codec<List<T>> list(Codec<T> codec) {
-        return new EnhancedListCodec<>(codec);
-    }
+    public static final NamedCodec<Gas> GAS = NamedCodec.lazy(() -> NamedCodec.registrar(Registration.REGISTRIES.get(MekanismAPI.gasRegistry().getRegistryKey())), "Gas");
+    public static final NamedCodec<InfuseType> INFUSE_TYPE = NamedCodec.lazy(() -> NamedCodec.registrar(Registration.REGISTRIES.get(MekanismAPI.infuseTypeRegistry().getRegistryKey())), "Infuse type");
+    public static final NamedCodec<Pigment> PIGMENT = NamedCodec.lazy(() -> NamedCodec.registrar(Registration.REGISTRIES.get(MekanismAPI.pigmentRegistry().getRegistryKey())), "Pigment");
+    public static final NamedCodec<Slurry> SLURRY = NamedCodec.lazy(() -> NamedCodec.registrar(Registration.REGISTRIES.get(MekanismAPI.slurryRegistry().getRegistryKey())), "Slurry");
 }

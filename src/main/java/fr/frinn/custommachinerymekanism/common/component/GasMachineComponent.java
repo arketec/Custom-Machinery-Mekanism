@@ -1,6 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.component;
 
-import com.mojang.serialization.Codec;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.ComponentIOMode;
 import fr.frinn.custommachinery.api.component.IMachineComponentManager;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
@@ -42,7 +42,7 @@ public class GasMachineComponent extends ChemicalMachineComponent<Gas, GasStack>
 
     public static class Template extends ChemicalMachineComponent.Template<Gas, GasStack, GasMachineComponent> {
 
-        public static final Codec<ChemicalMachineComponent.Template<Gas, GasStack, GasMachineComponent>> CODEC = makeCodec(Codecs.GAS, Template::new);
+        public static final NamedCodec<ChemicalMachineComponent.Template<Gas, GasStack, GasMachineComponent>> CODEC = makeCodec(Codecs.GAS, Template::new);
 
         public Template(String id, long capacity, ComponentIOMode mode, List<Gas> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
             super(id, capacity, mode, filter, whitelist, maxInput, maxOutput, config);

@@ -1,8 +1,7 @@
 package fr.frinn.custommachinerymekanism.common.component;
 
 import com.mojang.datafixers.util.Function8;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.ComponentIOMode;
 import fr.frinn.custommachinery.api.component.IComparatorInputComponent;
 import fr.frinn.custommachinery.api.component.IMachineComponentManager;
@@ -12,12 +11,9 @@ import fr.frinn.custommachinery.api.component.ISideConfigComponent;
 import fr.frinn.custommachinery.api.network.DataType;
 import fr.frinn.custommachinery.api.network.ISyncable;
 import fr.frinn.custommachinery.api.network.ISyncableStuff;
-import fr.frinn.custommachinery.impl.codec.CodecLogger;
-import fr.frinn.custommachinery.impl.codec.EnumCodec;
 import fr.frinn.custommachinery.impl.component.AbstractMachineComponent;
 import fr.frinn.custommachinery.impl.component.config.SideConfig;
 import fr.frinn.custommachinerymekanism.common.network.syncable.ChemicalStackSyncable;
-import fr.frinn.custommachinerymekanism.common.utils.Codecs;
 import mekanism.api.Action;
 import mekanism.api.chemical.Chemical;
 import mekanism.api.chemical.ChemicalStack;
@@ -147,20 +143,20 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
 
     public static abstract class Template<C extends Chemical<C>, S extends ChemicalStack<C>, T extends ChemicalMachineComponent<C, S>> implements IMachineComponentTemplate<T> {
 
-        public static <C extends Chemical<C>, S extends ChemicalStack<C>, T extends ChemicalMachineComponent<C, S>> Codec<Template<C, S, T>> makeCodec(Codec<C> codec, Function8<String, Long, ComponentIOMode, List<C>, Boolean, Long, Long, SideConfig.Template, Template<C, S, T>> builder) {
-            return RecordCodecBuilder.create(templateInstance ->
+        public static <C extends Chemical<C>, S extends ChemicalStack<C>, T extends ChemicalMachineComponent<C, S>> NamedCodec<Template<C, S, T>> makeCodec(NamedCodec<C> codec, Function8<String, Long, ComponentIOMode, List<C>, Boolean, Long, Long, SideConfig.Template, Template<C, S, T>> builder) {
+            return NamedCodec.record(templateInstance ->
                     templateInstance.group(
-                            Codec.STRING.fieldOf("id").forGetter(template -> template.id),
-                            Codec.LONG.fieldOf("capacity").forGetter(template -> template.capacity),
-                            CodecLogger.loggedOptional(EnumCodec.of(ComponentIOMode.class), "mode", ComponentIOMode.BOTH).forGetter(template -> template.mode),
-                            CodecLogger.loggedOptional(Codecs.list(codec), "filter", Collections.emptyList()).forGetter(template -> template.filter),
-                            CodecLogger.loggedOptional(Codec.BOOL, "whitelist", false).forGetter(template -> template.whitelist),
-                            CodecLogger.loggedOptional(Codec.LONG, "max_input").forGetter(template -> Optional.of(template.maxInput)),
-                            CodecLogger.loggedOptional(Codec.LONG, "max_output").forGetter(template -> Optional.of(template.maxOutput)),
-                            CodecLogger.loggedOptional(SideConfig.Template.CODEC, "config").forGetter(template -> Optional.of(template.config))
+                            NamedCodec.STRING.fieldOf("id").forGetter(template -> template.id),
+                            NamedCodec.LONG.fieldOf("capacity").forGetter(template -> template.capacity),
+                            ComponentIOMode.CODEC.optionalFieldOf("mode", ComponentIOMode.BOTH).forGetter(template -> template.mode),
+                            codec.listOf().optionalFieldOf("filter", Collections.emptyList()).forGetter(template -> template.filter),
+                            NamedCodec.BOOL.optionalFieldOf("whitelist", false).forGetter(template -> template.whitelist),
+                            NamedCodec.LONG.optionalFieldOf("max_input").forGetter(template -> Optional.of(template.maxInput)),
+                            NamedCodec.LONG.optionalFieldOf("max_output").forGetter(template -> Optional.of(template.maxOutput)),
+                            SideConfig.Template.CODEC.optionalFieldOf("config").forGetter(template -> Optional.of(template.config))
                     ).apply(templateInstance, (id, capacity, mode, filter, whitelist, maxInput, maxOutput, config) ->
                             builder.apply(id, capacity, mode, filter, whitelist, maxInput.orElse(capacity), maxOutput.orElse(capacity), config.orElse(mode.getBaseConfig()))
-                    )
+                    ), codec.name() + " machine component"
             );
         }
 

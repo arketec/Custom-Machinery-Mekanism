@@ -1,6 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.requirement;
 
-import com.mojang.serialization.Codec;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.api.crafting.IMachineRecipe;
 import fr.frinn.custommachinery.api.integration.jei.IJEIIngredientWrapper;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class InfusionPerTickRequirement extends ChemicalPerTickRequirement<InfuseType, InfusionStack, InfusionComponentHandler> {
 
-    public static final Codec<InfusionPerTickRequirement> CODEC = makeCodec(Codecs.INFUSE_TYPE, InfusionPerTickRequirement::new);
+    public static final NamedCodec<InfusionPerTickRequirement> CODEC = makeCodec(Codecs.INFUSE_TYPE, InfusionPerTickRequirement::new, "Infusion-per-tick requirement");
 
     public InfusionPerTickRequirement(RequirementIOMode mode, InfuseType chemical, long amount, String tank) {
         super(mode, chemical, amount, tank);

@@ -1,6 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.requirement;
 
-import com.mojang.serialization.Codec;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.api.crafting.IMachineRecipe;
 import fr.frinn.custommachinery.api.integration.jei.IJEIIngredientWrapper;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class PigmentPerTickRequirement extends ChemicalPerTickRequirement<Pigment, PigmentStack, PigmentComponentHandler> {
 
-    public static final Codec<PigmentPerTickRequirement> CODEC = makeCodec(Codecs.PIGMENT, PigmentPerTickRequirement::new);
+    public static final NamedCodec<PigmentPerTickRequirement> CODEC = makeCodec(Codecs.PIGMENT, PigmentPerTickRequirement::new, "Pigment-per-tick requirement");
 
     public PigmentPerTickRequirement(RequirementIOMode mode, Pigment chemical, long amount, String tank) {
         super(mode, chemical, amount, tank);

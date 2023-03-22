@@ -1,6 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.requirement;
 
-import com.mojang.serialization.Codec;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.api.crafting.IMachineRecipe;
 import fr.frinn.custommachinery.api.integration.jei.IJEIIngredientWrapper;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class InfusionRequirement extends ChemicalRequirement<InfuseType, InfusionStack, InfusionComponentHandler> {
 
-    public static final Codec<InfusionRequirement> CODEC = makeCodec(Codecs.INFUSE_TYPE, InfusionRequirement::new);
+    public static final NamedCodec<InfusionRequirement> CODEC = makeCodec(Codecs.INFUSE_TYPE, InfusionRequirement::new, "Infusion requirement");
 
     public InfusionRequirement(RequirementIOMode mode, InfuseType chemical, long amount, String tank) {
         super(mode, chemical, amount, tank);

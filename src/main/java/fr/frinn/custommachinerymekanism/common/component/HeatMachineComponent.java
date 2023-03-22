@@ -1,8 +1,7 @@
 package fr.frinn.custommachinerymekanism.common.component;
 
 import com.google.common.collect.Maps;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.ComponentIOMode;
 import fr.frinn.custommachinery.api.component.IMachineComponentManager;
 import fr.frinn.custommachinery.api.component.IMachineComponentTemplate;
@@ -13,8 +12,6 @@ import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.api.network.DataType;
 import fr.frinn.custommachinery.api.network.ISyncable;
 import fr.frinn.custommachinery.api.network.ISyncableStuff;
-import fr.frinn.custommachinery.impl.codec.CodecLogger;
-import fr.frinn.custommachinery.impl.codec.EnumCodec;
 import fr.frinn.custommachinery.impl.component.AbstractMachineComponent;
 import fr.frinn.custommachinery.impl.component.config.RelativeSide;
 import fr.frinn.custommachinery.impl.component.config.SideConfig;
@@ -159,17 +156,17 @@ public class HeatMachineComponent extends AbstractMachineComponent implements IS
 
     public static class Template implements IMachineComponentTemplate<HeatMachineComponent> {
 
-        public static final Codec<Template> CODEC = RecordCodecBuilder.create(templateInstance ->
+        public static final NamedCodec<Template> CODEC = NamedCodec.record(templateInstance ->
                 templateInstance.group(
-                        CodecLogger.loggedOptional(EnumCodec.of(ComponentIOMode.class), "mode", ComponentIOMode.INPUT).forGetter(template -> template.mode),
-                        CodecLogger.loggedOptional(Codec.DOUBLE, "capacity", 373.0D).forGetter(template -> template.capacity),
-                        CodecLogger.loggedOptional(Codec.DOUBLE, "base_temp", 300.0D).forGetter(template -> template.baseTemp),
-                        CodecLogger.loggedOptional(Codec.DOUBLE, "conduction", 1.0D).forGetter(template -> template.inverseConductionCoefficient),
-                        CodecLogger.loggedOptional(Codec.DOUBLE, "insulation", 0.0D).forGetter(template -> template.inverseInsulationCoefficient),
-                        CodecLogger.loggedOptional(SideConfig.Template.CODEC, "config").forGetter(template -> Optional.of(template.config))
+                        ComponentIOMode.CODEC.optionalFieldOf("mode", ComponentIOMode.INPUT).forGetter(template -> template.mode),
+                        NamedCodec.DOUBLE.optionalFieldOf("capacity", 373.0D).forGetter(template -> template.capacity),
+                        NamedCodec.DOUBLE.optionalFieldOf("base_temp", 300.0D).forGetter(template -> template.baseTemp),
+                        NamedCodec.DOUBLE.optionalFieldOf("conduction", 1.0D).forGetter(template -> template.inverseConductionCoefficient),
+                        NamedCodec.DOUBLE.optionalFieldOf("insulation", 0.0D).forGetter(template -> template.inverseInsulationCoefficient),
+                        SideConfig.Template.CODEC.optionalFieldOf("config").forGetter(template -> Optional.of(template.config))
                 ).apply(templateInstance, (mode, capacity, baseTemp, conduction, insulation, config) ->
                         new Template(mode, capacity, baseTemp, conduction, insulation, config.orElse(mode.getBaseConfig()))
-                )
+                ), "Heat machine component"
         );
 
         private final ComponentIOMode mode;

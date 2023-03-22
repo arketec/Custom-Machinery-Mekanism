@@ -1,6 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.requirement;
 
-import com.mojang.serialization.Codec;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.api.crafting.IMachineRecipe;
 import fr.frinn.custommachinery.api.integration.jei.IJEIIngredientWrapper;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class GasPerTickRequirement extends ChemicalPerTickRequirement<Gas, GasStack, GasComponentHandler> {
 
-    public static final Codec<GasPerTickRequirement> CODEC = makeCodec(Codecs.GAS, GasPerTickRequirement::new);
+    public static final NamedCodec<GasPerTickRequirement> CODEC = makeCodec(Codecs.GAS, GasPerTickRequirement::new, "Gas-per-tick requirement");
 
     public GasPerTickRequirement(RequirementIOMode mode, Gas chemical, long amount, String tank) {
         super(mode, chemical, amount, tank);

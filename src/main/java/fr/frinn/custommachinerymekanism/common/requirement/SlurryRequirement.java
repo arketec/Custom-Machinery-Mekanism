@@ -1,6 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.requirement;
 
-import com.mojang.serialization.Codec;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.api.crafting.IMachineRecipe;
 import fr.frinn.custommachinery.api.integration.jei.IJEIIngredientWrapper;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class SlurryRequirement extends ChemicalRequirement<Slurry, SlurryStack, SlurryComponentHandler> {
 
-    public static final Codec<SlurryRequirement> CODEC = makeCodec(Codecs.SLURRY, SlurryRequirement::new);
+    public static final NamedCodec<SlurryRequirement> CODEC = makeCodec(Codecs.SLURRY, SlurryRequirement::new, "Slurry requirement");
 
     public SlurryRequirement(RequirementIOMode mode, Slurry chemical, long amount, String tank) {
         super(mode, chemical, amount, tank);

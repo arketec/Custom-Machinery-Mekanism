@@ -1,6 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.component;
 
-import com.mojang.serialization.Codec;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.ComponentIOMode;
 import fr.frinn.custommachinery.api.component.IMachineComponentManager;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
@@ -42,7 +42,7 @@ public class InfusionMachineComponent extends ChemicalMachineComponent<InfuseTyp
 
     public static class Template extends ChemicalMachineComponent.Template<InfuseType, InfusionStack, InfusionMachineComponent> {
 
-        public static final Codec<ChemicalMachineComponent.Template<InfuseType, InfusionStack, InfusionMachineComponent>> CODEC = makeCodec(Codecs.INFUSE_TYPE, Template::new);
+        public static final NamedCodec<ChemicalMachineComponent.Template<InfuseType, InfusionStack, InfusionMachineComponent>> CODEC = makeCodec(Codecs.INFUSE_TYPE, Template::new);
 
         public Template(String id, long capacity, ComponentIOMode mode, List<InfuseType> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
             super(id, capacity, mode, filter, whitelist, maxInput, maxOutput, config);

@@ -1,6 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.component;
 
-import com.mojang.serialization.Codec;
+import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.ComponentIOMode;
 import fr.frinn.custommachinery.api.component.IMachineComponentManager;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
@@ -42,7 +42,7 @@ public class SlurryMachineComponent extends ChemicalMachineComponent<Slurry, Slu
 
     public static class Template extends ChemicalMachineComponent.Template<Slurry, SlurryStack, SlurryMachineComponent> {
 
-        public static final Codec<ChemicalMachineComponent.Template<Slurry, SlurryStack, SlurryMachineComponent>> CODEC = makeCodec(Codecs.SLURRY, Template::new);
+        public static final NamedCodec<ChemicalMachineComponent.Template<Slurry, SlurryStack, SlurryMachineComponent>> CODEC = makeCodec(Codecs.SLURRY, Template::new);
 
         public Template(String id, long capacity, ComponentIOMode mode, List<Slurry> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
             super(id, capacity, mode, filter, whitelist, maxInput, maxOutput, config);
