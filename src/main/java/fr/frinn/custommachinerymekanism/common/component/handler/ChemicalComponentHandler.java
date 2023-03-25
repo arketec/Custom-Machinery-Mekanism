@@ -2,6 +2,7 @@ package fr.frinn.custommachinerymekanism.common.component.handler;
 
 import com.google.common.collect.Maps;
 import fr.frinn.custommachinery.api.component.ComponentIOMode;
+import fr.frinn.custommachinery.api.component.IDumpComponent;
 import fr.frinn.custommachinery.api.component.IMachineComponentManager;
 import fr.frinn.custommachinery.api.component.ISerializableComponent;
 import fr.frinn.custommachinery.api.component.ITickableComponent;
@@ -34,7 +35,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public abstract class ChemicalComponentHandler<C extends Chemical<C>, S extends ChemicalStack<C>, H extends IChemicalHandler<C, S>, T extends ChemicalMachineComponent<C, S>> extends AbstractComponentHandler<T> implements ISerializableComponent, ISyncableStuff, ITickableComponent {
+public abstract class ChemicalComponentHandler<C extends Chemical<C>, S extends ChemicalStack<C>, H extends IChemicalHandler<C, S>, T extends ChemicalMachineComponent<C, S>> extends AbstractComponentHandler<T> implements ISerializableComponent, ISyncableStuff, ITickableComponent, IDumpComponent {
 
     private final LazyOptional<H> generalHandler = LazyOptional.of(() -> createSidedHandler(null));
     private final Map<Direction, LazyOptional<H>> sidedHandlers = Maps.newEnumMap(Direction.class);
@@ -157,6 +158,13 @@ public abstract class ChemicalComponentHandler<C extends Chemical<C>, S extends 
                 }
             });
         }
+    }
+
+    @Override
+    public void dump(List<String> ids) {
+        this.getComponents().stream()
+                .filter(component -> ids.contains(component.getId()))
+                .forEach(component -> component.setStack(component.empty()));
     }
 
     /** RECIPE STUFF **/

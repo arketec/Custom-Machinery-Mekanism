@@ -3,6 +3,7 @@ package fr.frinn.custommachinerymekanism.common.component;
 import com.google.common.collect.Maps;
 import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.ComponentIOMode;
+import fr.frinn.custommachinery.api.component.IDumpComponent;
 import fr.frinn.custommachinery.api.component.IMachineComponentManager;
 import fr.frinn.custommachinery.api.component.IMachineComponentTemplate;
 import fr.frinn.custommachinery.api.component.ISerializableComponent;
@@ -38,7 +39,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class HeatMachineComponent extends AbstractMachineComponent implements ISideConfigComponent, ITileHeatHandler, ISerializableComponent, ISyncableStuff, ITickableComponent {
+public class HeatMachineComponent extends AbstractMachineComponent implements ISideConfigComponent, ITileHeatHandler, ISerializableComponent, ISyncableStuff, ITickableComponent, IDumpComponent {
 
     private final double baseTemp;
     private final SideConfig config;
@@ -77,6 +78,11 @@ public class HeatMachineComponent extends AbstractMachineComponent implements IS
         this.updateNeighbours();
         HeatTransfer transfer = this.simulate();
         this.lastEnvironmentalLoss = transfer.environmentTransfer();
+    }
+
+    @Override
+    public void dump(List<String> ids) {
+        this.capacitor.setHeat(this.baseTemp);
     }
 
     public double getLastEnvironmentalLoss() {
