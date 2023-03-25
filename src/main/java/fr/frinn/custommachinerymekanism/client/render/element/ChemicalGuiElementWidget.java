@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.api.guielement.IMachineScreen;
 import fr.frinn.custommachinery.impl.guielement.TexturedGuiElementWidget;
+import fr.frinn.custommachinerymekanism.client.ClientHandler;
 import fr.frinn.custommachinerymekanism.common.component.ChemicalMachineComponent;
 import fr.frinn.custommachinerymekanism.common.guielement.ChemicalGuiElement;
 import mekanism.api.chemical.Chemical;
@@ -55,6 +56,8 @@ public abstract class ChemicalGuiElementWidget<C extends ChemicalMachineComponen
                 RenderSystem.disableBlend();
             }
         });
+        if (this.isHoveredOrFocused())
+            ClientHandler.renderSlotHighlight(poseStack, this.x + 1, this.y + 1, this.width - 2, this.height - 2);
     }
 
     @Override

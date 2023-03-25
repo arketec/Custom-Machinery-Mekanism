@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import fr.frinn.custommachinery.api.guielement.IMachineScreen;
 import fr.frinn.custommachinery.impl.guielement.TexturedGuiElementWidget;
 import fr.frinn.custommachinerymekanism.Registration;
+import fr.frinn.custommachinerymekanism.client.ClientHandler;
 import fr.frinn.custommachinerymekanism.common.guielement.HeatGuiElement;
 import mekanism.api.IIncrementalEnum;
 import mekanism.common.MekanismLang;
@@ -36,6 +37,8 @@ public class HeatGuiElementWidget extends TexturedGuiElementWidget<HeatGuiElemen
             int barHeight = Mth.clamp((int)(fillPercent * (double)this.height), 1, this.height - 1);
             GuiComponent.fill(pose, this.x + 1, this.y + this.height - barHeight, this.x + this.width - 1, this.y + this.height - 1, FastColor.ARGB32.color(200, 255, 128, 0));
         });
+        if (this.isHoveredOrFocused())
+            ClientHandler.renderSlotHighlight(pose, this.x + 1, this.y + 1, this.width - 2, this.height - 2);
     }
 
     @Override

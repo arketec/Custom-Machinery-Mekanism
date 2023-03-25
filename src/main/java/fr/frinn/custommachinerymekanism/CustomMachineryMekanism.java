@@ -1,5 +1,6 @@
 package fr.frinn.custommachinerymekanism;
 
+import dev.architectury.platform.forge.EventBuses;
 import fr.frinn.custommachinery.api.component.IMachineComponentManager;
 import fr.frinn.custommachinery.api.machine.MachineTile;
 import fr.frinn.custommachinerymekanism.client.ClientHandler;
@@ -32,6 +33,7 @@ public class CustomMachineryMekanism {
     public CustomMachineryMekanism() {
         final IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
 
+        EventBuses.registerModEventBus(MODID, MOD_BUS);
         Registration.MACHINE_COMPONENTS.register(MOD_BUS);
         Registration.GUI_ELEMENTS.register(MOD_BUS);
         Registration.REQUIREMENTS.register(MOD_BUS);
