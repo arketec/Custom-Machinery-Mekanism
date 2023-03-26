@@ -1,5 +1,12 @@
 {
   "custommachinerymekanism.requirements.chemical.error.input": "Not enough %s, %smB needed !",
   "custommachinerymekanism.requirements.chemical.error.output": "Not enough space to store %mb of %s !",
-  "custommachinerymekanism.requirements.heat.error.input": "Not enough stored heat, %s needed but %s found !"
+  "custommachinerymekanism.requirements.heat.error.input": "Not enough stored heat, %s needed but %s found !",
+  "custommachinerymekanism.requirements.temp.error": "Temperature required: %s",
+
+  "custommachinerymekanism.jei.ingredient.heat": "Heat:  %s",
+  "custommachinerymekanism.jei.ingredient.heat.input": "Consume %sHeat",
+  "custommachinerymekanism.jei.ingredient.heat.output": "Produce %sHeat",
+  "custommachinerymekanism.jei.ingredient.heat.pertick.input": "Consume %sHeat/t",
+  "custommachinerymekanism.jei.ingredient.heat.pertick.output": "Produce %sHeat/t"
 }

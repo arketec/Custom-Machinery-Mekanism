@@ -53,7 +53,7 @@ public class HeatMachineComponent extends AbstractMachineComponent implements IS
         this.baseTemp = baseTemp;
         this.config = config.build(this);
         this.config.setCallback(this::onConfigChange);
-        this.capacitor = BasicHeatCapacitor.create(capacity, inverseConductionCoefficient, inverseInsulationCoefficient, () -> baseTemp, null);
+        this.capacitor = BasicHeatCapacitor.create(capacity, inverseConductionCoefficient, inverseInsulationCoefficient, () -> baseTemp, this::onContentsChanged);
         this.handler = LazyOptional.of(() -> this);
     }
 
@@ -151,7 +151,7 @@ public class HeatMachineComponent extends AbstractMachineComponent implements IS
 
     @Override
     public void onContentsChanged() {
-
+        getManager().markDirty();
     }
 
     @Nullable

@@ -7,9 +7,10 @@ import fr.frinn.custommachinery.api.crafting.ICraftingContext;
 import fr.frinn.custommachinery.api.crafting.IMachineRecipe;
 import fr.frinn.custommachinery.api.integration.jei.IJEIIngredientRequirement;
 import fr.frinn.custommachinery.api.integration.jei.IJEIIngredientWrapper;
+import fr.frinn.custommachinery.api.requirement.ITickableRequirement;
 import fr.frinn.custommachinery.api.requirement.RequirementIOMode;
 import fr.frinn.custommachinery.api.requirement.RequirementType;
-import fr.frinn.custommachinery.impl.requirement.AbstractDelayedChanceableRequirement;
+import fr.frinn.custommachinery.impl.requirement.AbstractChanceableRequirement;
 import fr.frinn.custommachinerymekanism.Registration;
 import fr.frinn.custommachinerymekanism.client.jei.heat.Heat;
 import fr.frinn.custommachinerymekanism.client.jei.wrapper.HeatIngredientWrapper;
@@ -20,32 +21,30 @@ import net.minecraft.network.chat.TranslatableComponent;
 import java.util.Collections;
 import java.util.List;
 
-public class HeatRequirement extends AbstractDelayedChanceableRequirement<HeatMachineComponent> implements IJEIIngredientRequirement<Heat> {
+public class HeatPerTickRequirement extends AbstractChanceableRequirement<HeatMachineComponent> implements ITickableRequirement<HeatMachineComponent>, IJEIIngredientRequirement<Heat> {
 
-    public static final NamedCodec<HeatRequirement> CODEC = NamedCodec.record(heatRequirementInstance ->
+    public static final NamedCodec<HeatPerTickRequirement> CODEC = NamedCodec.record(heatRequirementInstance ->
             heatRequirementInstance.group(
-                    RequirementIOMode.CODEC.fieldOf("mode").forGetter(HeatRequirement::getMode),
+                    RequirementIOMode.CODEC.fieldOf("mode").forGetter(HeatPerTickRequirement::getMode),
                     NamedCodec.doubleRange(0.0D, Double.MAX_VALUE).fieldOf("amount").forGetter(requirement -> requirement.amount),
-                    NamedCodec.doubleRange(0.0D, 1.0D).optionalFieldOf("chance", 1.0D).forGetter(HeatRequirement::getChance),
-                    NamedCodec.doubleRange(0.0D, 1.0D).optionalFieldOf("delay", 0.0D).forGetter(HeatRequirement::getDelay)
-            ).apply(heatRequirementInstance, (mode, amount, chance, delay) -> {
-                    HeatRequirement requirement = new HeatRequirement(mode, amount);
-                    requirement.setChance(chance);
-                    requirement.setDelay(delay);
-                    return requirement;
-            }), "Heat requirement"
+                    NamedCodec.doubleRange(0.0D, 1.0D).optionalFieldOf("chance", 1.0D).forGetter(HeatPerTickRequirement::getChance)
+            ).apply(heatRequirementInstance, (mode, amount, chance) -> {
+                HeatPerTickRequirement requirement = new HeatPerTickRequirement(mode, amount);
+                requirement.setChance(chance);
+                return requirement;
+            }), "Heat per tick requirement"
     );
 
     private final double amount;
 
-    public HeatRequirement(RequirementIOMode mode, double amount) {
+    public HeatPerTickRequirement(RequirementIOMode mode, double amount) {
         super(mode);
         this.amount = amount;
     }
 
     @Override
-    public RequirementType<HeatRequirement> getType() {
-        return Registration.HEAT_REQUIREMENT.get();
+    public RequirementType<HeatPerTickRequirement> getType() {
+        return Registration.HEAT_PER_TICK_REQUIREMENT.get();
     }
 
     @Override
@@ -63,44 +62,31 @@ public class HeatRequirement extends AbstractDelayedChanceableRequirement<HeatMa
 
     @Override
     public CraftingResult processStart(HeatMachineComponent component, ICraftingContext context) {
-        if(getMode() != RequirementIOMode.INPUT || getDelay() != 0)
-            return CraftingResult.pass();
-
-        double amount = context.getModifiedValue(this.amount, this, null);
-        IHeatCapacitor capacitor = component.getHeatCapacitors(null).get(0);
-        if(capacitor.getHeat() < amount)
-            return CraftingResult.error(new TranslatableComponent("custommachinerymekanism.requirements.heat.error.input", amount, capacitor.getHeat()));
-        capacitor.handleHeat(-amount);
-        return CraftingResult.success();
+        return CraftingResult.pass();
     }
 
     @Override
     public CraftingResult processEnd(HeatMachineComponent component, ICraftingContext context) {
-        if(getMode() != RequirementIOMode.OUTPUT || getDelay() != 0)
-            return CraftingResult.pass();
-
-        double amount = context.getModifiedValue(this.amount, this, null);
-        component.getHeatCapacitors(null).get(0).handleHeat(amount);
-        return CraftingResult.success();
+        return CraftingResult.pass();
     }
 
     @Override
-    public CraftingResult execute(HeatMachineComponent component, ICraftingContext context) {
+    public CraftingResult processTick(HeatMachineComponent component, ICraftingContext context) {
         double amount = context.getModifiedValue(this.amount, this, null);
         IHeatCapacitor capacitor = component.getHeatCapacitors(null).get(0);
         if(getMode() == RequirementIOMode.INPUT) {
             if(capacitor.getHeat() < amount)
                 return CraftingResult.error(new TranslatableComponent("custommachinerymekanism.requirements.heat.error.input", amount, capacitor.getHeat()));
             capacitor.handleHeat(-amount);
-            return CraftingResult.success();
-        } else {
-            capacitor.handleHeat(amount);
-            return CraftingResult.success();
         }
+        else
+            component.getHeatCapacitors(null).get(0).handleHeat(amount);
+
+        return CraftingResult.success();
     }
 
     @Override
     public List<IJEIIngredientWrapper<Heat>> getJEIIngredientWrappers(IMachineRecipe recipe) {
-        return Collections.singletonList(new HeatIngredientWrapper(this.getMode(), this.amount, this.getChance(), false));
+        return Collections.singletonList(new HeatIngredientWrapper(getMode(), this.amount, getChance(), true));
     }
 }

@@ -27,6 +27,7 @@ import fr.frinn.custommachinerymekanism.common.network.data.SlurryStackData;
 import fr.frinn.custommachinerymekanism.common.network.syncable.ChemicalStackSyncable;
 import fr.frinn.custommachinerymekanism.common.requirement.GasPerTickRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.GasRequirement;
+import fr.frinn.custommachinerymekanism.common.requirement.HeatPerTickRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.HeatRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.InfusionPerTickRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.InfusionRequirement;
@@ -34,6 +35,7 @@ import fr.frinn.custommachinerymekanism.common.requirement.PigmentPerTickRequire
 import fr.frinn.custommachinerymekanism.common.requirement.PigmentRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.SlurryPerTickRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.SlurryRequirement;
+import fr.frinn.custommachinerymekanism.common.requirement.TemperatureRequirement;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.infuse.InfusionStack;
 import mekanism.api.chemical.pigment.PigmentStack;
@@ -71,6 +73,8 @@ public class Registration {
     public static final RegistryObject<RequirementType<SlurryRequirement>> SLURRY_REQUIREMENT = REQUIREMENTS.register("slurry", () -> RequirementType.inventory(SlurryRequirement.CODEC));
     public static final RegistryObject<RequirementType<SlurryPerTickRequirement>> SLURRY_PER_TICK_REQUIREMENT = REQUIREMENTS.register("slurry_per_tick", () -> RequirementType.inventory(SlurryPerTickRequirement.CODEC));
     public static final RegistryObject<RequirementType<HeatRequirement>> HEAT_REQUIREMENT = REQUIREMENTS.register("heat", () -> RequirementType.inventory(HeatRequirement.CODEC));
+    public static final RegistryObject<RequirementType<HeatPerTickRequirement>> HEAT_PER_TICK_REQUIREMENT = REQUIREMENTS.register("heat_per_tick", () -> RequirementType.inventory(HeatPerTickRequirement.CODEC));
+    public static final RegistryObject<RequirementType<TemperatureRequirement>> TEMPERATURE_REQUIREMENT = REQUIREMENTS.register("temperature", () -> RequirementType.inventory(TemperatureRequirement.CODEC));
 
     public static final RegistryObject<DataType<GasStackData, GasStack>> GAS_DATA = DATAS.register("gas", () -> DataType.create(GasStack.class, ChemicalStackSyncable::create, GasStackData::new));
     public static final RegistryObject<DataType<SlurryStackData, SlurryStack>> SLURRY_DATA = DATAS.register("slurry", () -> DataType.create(SlurryStack.class, ChemicalStackSyncable::create, SlurryStackData::new));

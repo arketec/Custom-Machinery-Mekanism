@@ -4,6 +4,7 @@ import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.recipe.RecipeExceptionJS;
 import dev.latvian.mods.kubejs.script.ScriptType;
 import dev.latvian.mods.rhino.Wrapper;
+import dev.latvian.mods.rhino.util.EnumTypeWrapper;
 import dev.latvian.mods.rhino.util.wrap.TypeWrappers;
 import mekanism.api.MekanismAPI;
 import mekanism.api.chemical.Chemical;
@@ -12,6 +13,7 @@ import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.infuse.InfusionStack;
 import mekanism.api.chemical.pigment.PigmentStack;
 import mekanism.api.chemical.slurry.SlurryStack;
+import mekanism.common.util.UnitDisplayUtils.TemperatureUnit;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.BiFunction;
@@ -25,6 +27,7 @@ public class CustomMachineryMekanismKubeJSPlugin extends KubeJSPlugin {
         typeWrappers.register(InfusionStack.class, o -> of(o, MekanismAPI.EMPTY_INFUSE_TYPE, InfusionStack.EMPTY, MekanismAPI.infuseTypeRegistry()::getValue, InfusionStack::new));
         typeWrappers.register(PigmentStack.class, o -> of(o, MekanismAPI.EMPTY_PIGMENT, PigmentStack.EMPTY, MekanismAPI.pigmentRegistry()::getValue, PigmentStack::new));
         typeWrappers.register(SlurryStack.class, o -> of(o, MekanismAPI.EMPTY_SLURRY, SlurryStack.EMPTY, MekanismAPI.slurryRegistry()::getValue, SlurryStack::new));
+        typeWrappers.register(TemperatureUnit.class, EnumTypeWrapper.get(TemperatureUnit.class));
     }
 
     @SuppressWarnings("unchecked")
