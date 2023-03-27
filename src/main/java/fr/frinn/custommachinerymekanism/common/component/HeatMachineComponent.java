@@ -48,12 +48,12 @@ public class HeatMachineComponent extends AbstractMachineComponent implements IS
     private LazyOptional<IHeatHandler> handler;
     private double lastEnvironmentalLoss;
 
-    public HeatMachineComponent(IMachineComponentManager manager, ComponentIOMode mode, double capacity, double baseTemp, double inverseConductionCoefficient, double inverseInsulationCoefficient, SideConfig.Template config) {
-        super(manager, mode);
+    public HeatMachineComponent(IMachineComponentManager manager, double capacity, double baseTemp, double inverseConductionCoefficient, double inverseInsulationCoefficient, SideConfig.Template config) {
+        super(manager, ComponentIOMode.BOTH);
         this.baseTemp = baseTemp;
         this.config = config.build(this);
         this.config.setCallback(this::onConfigChange);
-        this.capacitor = BasicHeatCapacitor.create(capacity, inverseConductionCoefficient, inverseInsulationCoefficient, () -> baseTemp, this::onContentsChanged);
+        this.capacitor = BasicHeatCapacitor.create(capacity, inverseConductionCoefficient, inverseInsulationCoefficient, () -> baseTemp, this);
         this.handler = LazyOptional.of(() -> this);
     }
 
@@ -164,26 +164,23 @@ public class HeatMachineComponent extends AbstractMachineComponent implements IS
 
         public static final NamedCodec<Template> CODEC = NamedCodec.record(templateInstance ->
                 templateInstance.group(
-                        ComponentIOMode.CODEC.optionalFieldOf("mode", ComponentIOMode.INPUT).forGetter(template -> template.mode),
                         NamedCodec.DOUBLE.optionalFieldOf("capacity", 373.0D).forGetter(template -> template.capacity),
                         NamedCodec.DOUBLE.optionalFieldOf("base_temp", 300.0D).forGetter(template -> template.baseTemp),
                         NamedCodec.DOUBLE.optionalFieldOf("conduction", 1.0D).forGetter(template -> template.inverseConductionCoefficient),
                         NamedCodec.DOUBLE.optionalFieldOf("insulation", 0.0D).forGetter(template -> template.inverseInsulationCoefficient),
                         SideConfig.Template.CODEC.optionalFieldOf("config").forGetter(template -> Optional.of(template.config))
-                ).apply(templateInstance, (mode, capacity, baseTemp, conduction, insulation, config) ->
-                        new Template(mode, capacity, baseTemp, conduction, insulation, config.orElse(mode.getBaseConfig()))
+                ).apply(templateInstance, (capacity, baseTemp, conduction, insulation, config) ->
+                        new Template(capacity, baseTemp, conduction, insulation, config.orElse(ComponentIOMode.INPUT.getBaseConfig()))
                 ), "Heat machine component"
         );
 
-        private final ComponentIOMode mode;
         private final double capacity;
         private final double baseTemp;
         private final double inverseConductionCoefficient;
         private final double inverseInsulationCoefficient;
         private final SideConfig.Template config;
 
-        public Template(ComponentIOMode mode, double capacity, double baseTemp, double inverseConductionCoefficient, double inverseInsulationCoefficient, SideConfig.Template config) {
-            this.mode = mode;
+        public Template(double capacity, double baseTemp, double inverseConductionCoefficient, double inverseInsulationCoefficient, SideConfig.Template config) {
             this.capacity = capacity;
             this.baseTemp = baseTemp;
             this.inverseConductionCoefficient = inverseConductionCoefficient;
@@ -208,7 +205,7 @@ public class HeatMachineComponent extends AbstractMachineComponent implements IS
 
         @Override
         public HeatMachineComponent build(IMachineComponentManager manager) {
-            return new HeatMachineComponent(manager, this.mode, this.capacity, this.baseTemp, this.inverseConductionCoefficient, this.inverseInsulationCoefficient, this.config);
+            return new HeatMachineComponent(manager, this.capacity, this.baseTemp, this.inverseConductionCoefficient, this.inverseInsulationCoefficient, this.config);
         }
     }
 }
