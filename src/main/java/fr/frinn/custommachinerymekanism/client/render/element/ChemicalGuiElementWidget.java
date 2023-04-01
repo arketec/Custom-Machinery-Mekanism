@@ -56,7 +56,7 @@ public abstract class ChemicalGuiElementWidget<C extends ChemicalMachineComponen
                 RenderSystem.disableBlend();
             }
         });
-        if (this.isHoveredOrFocused())
+        if (this.isHoveredOrFocused() && this.getElement().highlight())
             ClientHandler.renderSlotHighlight(poseStack, this.x + 1, this.y + 1, this.width - 2, this.height - 2);
     }
 

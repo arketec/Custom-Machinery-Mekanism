@@ -37,7 +37,7 @@ public class HeatGuiElementWidget extends TexturedGuiElementWidget<HeatGuiElemen
             int barHeight = Mth.clamp((int)(fillPercent * (double)this.height), 1, this.height - 1);
             GuiComponent.fill(pose, this.x + 1, this.y + this.height - barHeight, this.x + this.width - 1, this.y + this.height - 1, FastColor.ARGB32.color(200, 255, 128, 0));
         });
-        if (this.isHoveredOrFocused())
+        if (this.isHoveredOrFocused() && this.getElement().highlight())
             ClientHandler.renderSlotHighlight(pose, this.x + 1, this.y + 1, this.width - 2, this.height - 2);
     }
 

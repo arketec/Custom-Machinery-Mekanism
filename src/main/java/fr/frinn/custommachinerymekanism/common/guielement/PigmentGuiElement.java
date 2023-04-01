@@ -11,8 +11,8 @@ public class PigmentGuiElement extends ChemicalGuiElement<PigmentMachineComponen
 
     public static final NamedCodec<PigmentGuiElement> CODEC = makeCodec(PigmentGuiElement::new, "Pigment gui element");
 
-    public PigmentGuiElement(int x, int y, int width, int height, int priority, ResourceLocation texture, String id) {
-        super(x, y, width, height, priority, texture, id);
+    public PigmentGuiElement(int x, int y, int width, int height, int priority, ResourceLocation texture, String id, boolean highlight) {
+        super(x, y, width, height, priority, texture, id, highlight);
     }
 
     @Override

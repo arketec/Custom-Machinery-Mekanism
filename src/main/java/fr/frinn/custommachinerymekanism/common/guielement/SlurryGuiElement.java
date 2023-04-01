@@ -11,8 +11,8 @@ public class SlurryGuiElement extends ChemicalGuiElement<SlurryMachineComponent>
 
     public static final NamedCodec<SlurryGuiElement> CODEC = makeCodec(SlurryGuiElement::new, "Slurry gui element");
 
-    public SlurryGuiElement(int x, int y, int width, int height, int priority, ResourceLocation texture, String id) {
-        super(x, y, width, height, priority, texture, id);
+    public SlurryGuiElement(int x, int y, int width, int height, int priority, ResourceLocation texture, String id, boolean highlight) {
+        super(x, y, width, height, priority, texture, id, highlight);
     }
 
     @Override
