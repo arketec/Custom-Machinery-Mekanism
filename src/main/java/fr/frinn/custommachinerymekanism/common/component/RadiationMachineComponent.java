@@ -29,7 +29,7 @@ public class RadiationMachineComponent extends AbstractMachineComponent {
     }
 
     public void removeRadiations(double amount, int radius) {
-        Set<Chunk3D> checkChunks = new Chunk3D(this.coords.get()).expand(Math.min(1, radius / 16));
+        Set<Chunk3D> checkChunks = new Chunk3D(this.coords.get()).expand((int)Math.ceil(radius / 16.0D));
 
         for (Chunk3D chunk : checkChunks) {
             for (Map.Entry<Coord4D, IRadiationSource> entry : MekanismAPI.getRadiationManager().getRadiationSources().row(chunk).entrySet()) {
