@@ -10,6 +10,7 @@ import fr.frinn.custommachinerymekanism.common.component.GasMachineComponent;
 import fr.frinn.custommachinerymekanism.common.component.HeatMachineComponent;
 import fr.frinn.custommachinerymekanism.common.component.InfusionMachineComponent;
 import fr.frinn.custommachinerymekanism.common.component.PigmentMachineComponent;
+import fr.frinn.custommachinerymekanism.common.component.RadiationMachineComponent;
 import fr.frinn.custommachinerymekanism.common.component.SlurryMachineComponent;
 import fr.frinn.custommachinerymekanism.common.component.handler.GasComponentHandler;
 import fr.frinn.custommachinerymekanism.common.component.handler.InfusionComponentHandler;
@@ -33,6 +34,8 @@ import fr.frinn.custommachinerymekanism.common.requirement.InfusionPerTickRequir
 import fr.frinn.custommachinerymekanism.common.requirement.InfusionRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.PigmentPerTickRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.PigmentRequirement;
+import fr.frinn.custommachinerymekanism.common.requirement.RadiationPerTickRequirement;
+import fr.frinn.custommachinerymekanism.common.requirement.RadiationRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.SlurryPerTickRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.SlurryRequirement;
 import fr.frinn.custommachinerymekanism.common.requirement.TemperatureRequirement;
@@ -57,6 +60,7 @@ public class Registration {
     public static final RegistryObject<MachineComponentType<PigmentMachineComponent>> PIGMENT_MACHINE_COMPONENT = MACHINE_COMPONENTS.register("pigment", () -> MachineComponentType.create(PigmentMachineComponent.Template.CODEC).setNotSingle(PigmentComponentHandler::new));
     public static final RegistryObject<MachineComponentType<SlurryMachineComponent>> SLURRY_MACHINE_COMPONENT = MACHINE_COMPONENTS.register("slurry", () -> MachineComponentType.create(SlurryMachineComponent.Template.CODEC).setNotSingle(SlurryComponentHandler::new));
     public static final RegistryObject<MachineComponentType<HeatMachineComponent>> HEAT_MACHINE_COMPONENT = MACHINE_COMPONENTS.register("heat", () -> MachineComponentType.create(HeatMachineComponent.Template.CODEC));
+    public static final RegistryObject<MachineComponentType<RadiationMachineComponent>> RADIATION_MACHINE_COMPONENT = MACHINE_COMPONENTS.register("radiation", () -> MachineComponentType.create(RadiationMachineComponent::new));
 
     public static final RegistryObject<GuiElementType<GasGuiElement>> GAS_GUI_ELEMENT = GUI_ELEMENTS.register("gas", () -> GuiElementType.create(GasGuiElement.CODEC));
     public static final RegistryObject<GuiElementType<InfusionGuiElement>> INFUSION_GUI_ELEMENT = GUI_ELEMENTS.register("infusion", () -> GuiElementType.create(InfusionGuiElement.CODEC));
@@ -75,6 +79,8 @@ public class Registration {
     public static final RegistryObject<RequirementType<HeatRequirement>> HEAT_REQUIREMENT = REQUIREMENTS.register("heat", () -> RequirementType.inventory(HeatRequirement.CODEC));
     public static final RegistryObject<RequirementType<HeatPerTickRequirement>> HEAT_PER_TICK_REQUIREMENT = REQUIREMENTS.register("heat_per_tick", () -> RequirementType.inventory(HeatPerTickRequirement.CODEC));
     public static final RegistryObject<RequirementType<TemperatureRequirement>> TEMPERATURE_REQUIREMENT = REQUIREMENTS.register("temperature", () -> RequirementType.inventory(TemperatureRequirement.CODEC));
+    public static final RegistryObject<RequirementType<RadiationRequirement>> RADIATION_REQUIREMENT = REQUIREMENTS.register("radiation", () -> RequirementType.world(RadiationRequirement.CODEC));
+    public static final RegistryObject<RequirementType<RadiationPerTickRequirement>> RADIATION_PER_TICK = REQUIREMENTS.register("radiation_per_tick", () -> RequirementType.world(RadiationPerTickRequirement.CODEC));
 
     public static final RegistryObject<DataType<GasStackData, GasStack>> GAS_DATA = DATAS.register("gas", () -> DataType.create(GasStack.class, ChemicalStackSyncable::create, GasStackData::new));
     public static final RegistryObject<DataType<SlurryStackData, SlurryStack>> SLURRY_DATA = DATAS.register("slurry", () -> DataType.create(SlurryStack.class, ChemicalStackSyncable::create, SlurryStackData::new));

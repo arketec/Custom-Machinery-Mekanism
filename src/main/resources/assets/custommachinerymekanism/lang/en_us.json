@@ -3,6 +3,11 @@
   "custommachinerymekanism.requirements.chemical.error.output": "Not enough space to store %mb of %s !",
   "custommachinerymekanism.requirements.heat.error.input": "Not enough stored heat, %s needed but %s found !",
   "custommachinerymekanism.requirements.temp.error": "Temperature required: %s",
+  "custommachinerymekanism.requirements.radiation.error": "Not enough radiations: %s, %s needed !",
+  "custommachinerymekanism.requirements.radiation.info.input": "Remove %s in a %s blocks radius",
+  "custommachinerymekanism.requirements.radiation.info.output": "Emit %s",
+  "custommachinerymekanism.requirements.radiation.info.tick.input": "Remove %s/t in a %s blocks radius",
+  "custommachinerymekanism.requirements.radiation.info.tick.output": "Emit %s/t",
 
   "custommachinerymekanism.jei.ingredient.heat": "Heat:  %s",
   "custommachinerymekanism.jei.ingredient.heat.input": "Consume %sHeat",
