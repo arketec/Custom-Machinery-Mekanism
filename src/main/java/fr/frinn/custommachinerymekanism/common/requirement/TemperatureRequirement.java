@@ -17,7 +17,7 @@ import fr.frinn.custommachinerymekanism.client.jei.heat.Heat;
 import fr.frinn.custommachinerymekanism.client.jei.wrapper.TemperatureIngredientWrapper;
 import fr.frinn.custommachinerymekanism.common.component.HeatMachineComponent;
 import mekanism.common.util.UnitDisplayUtils.TemperatureUnit;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 import java.util.Collections;
 import java.util.List;
@@ -69,7 +69,7 @@ public class TemperatureRequirement extends AbstractRequirement<HeatMachineCompo
     public CraftingResult processTick(HeatMachineComponent component, ICraftingContext context) {
         if(test(component, context))
             return CraftingResult.success();
-        return CraftingResult.error(new TranslatableComponent("custommachinerymekanism.requirements.temp.error", this.temp.toFormattedString() + this.unit.getSymbol()));
+        return CraftingResult.error(Component.translatable("custommachinerymekanism.requirements.temp.error", this.temp.toFormattedString() + this.unit.getSymbol()));
     }
 
     @Override

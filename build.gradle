@@ -1,5 +1,5 @@
 plugins {
-    id "dev.architectury.loom" version "0.12.0-SNAPSHOT"
+    id "dev.architectury.loom" version "1.3.+"
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "maven-publish"
     id "me.shedaniel.unified-publishing" version "0.1.+"
@@ -41,16 +41,6 @@ loom {
         // for forge projects made with architectury loom!
         dataGen {
             mod project.mod_id
-        }
-    }
-
-    // This allows you to modify your launch configurations,
-    // for example to add custom arguments. In this case, we want
-    // the data generator to check our resources directory for
-    // existing files. (see Forge's ExistingFileHelper for more info)
-    launches {
-        data {
-            arg "--existing", file("src/main/resources").absolutePath
         }
     }
 }
@@ -99,6 +89,13 @@ repositories {
         name = 'BlameJared Maven'
         url = 'https://maven.blamejared.com'
     }
+    maven {
+        name = "ldtteam Maven"
+        url = "https://ldtteam.jfrog.io/ldtteam/modding/"
+        content {
+            includeGroup "com.communi-suggestu.saecularia-caudices"
+        }
+    }
 }
 
 dependencies {
@@ -116,8 +113,8 @@ dependencies {
     modLocalRuntime modCompileOnly("frinn.custommachinery:CustomMachinery-forge:${project.minecraft_version}-${project.custommachinery_version}")
 
     //JEI
-    modLocalRuntime modCompileOnly("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
-    modLocalRuntime modCompileOnly("mezz.jei:jei-${project.minecraft_version}-forge-api:${project.jei_version}")
+    modCompileOnly("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
+    modCompileOnly("mezz.jei:jei-${project.minecraft_version}-forge-api:${project.jei_version}")
     modLocalRuntime("mezz.jei:jei-${project.minecraft_version}-forge:${project.jei_version}") {transitive = false}
 
     //Mekanism
@@ -125,6 +122,7 @@ dependencies {
 
     //KubeJS
     modLocalRuntime modCompileOnly("dev.latvian.mods:kubejs-forge:${rootProject.kubejs_version}")
+    localRuntime("io.github.llamalad7:mixinextras-forge:0.2.0-rc.4")
 
     //Crafttweaker
     modLocalRuntime modCompileOnly("com.blamejared.crafttweaker:CraftTweaker-forge-${project.minecraft_version}:${project.ct_version}")
@@ -239,7 +237,9 @@ publishing {
         project {
             displayName = "Custom-Machinery-Mekanism-${project.minecraft_version}-${project.mod_version}"
             releaseType = "release"
-            changelog = rootProject.file("CHANGELOG.md").text
+            if(rootProject.file("CHANGELOG.md").exists()) {
+                changelog = rootProject.file("CHANGELOG.md").text
+            }
             gameVersions = ["1.18.2"]
             gameLoaders = ["forge"]
             mainPublication remapJar

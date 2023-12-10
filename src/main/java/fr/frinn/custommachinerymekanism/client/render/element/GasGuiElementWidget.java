@@ -5,13 +5,13 @@ import fr.frinn.custommachinery.api.guielement.IMachineScreen;
 import fr.frinn.custommachinerymekanism.Registration;
 import fr.frinn.custommachinerymekanism.common.component.GasMachineComponent;
 import fr.frinn.custommachinerymekanism.common.guielement.GasGuiElement;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 
 public class GasGuiElementWidget extends ChemicalGuiElementWidget<GasMachineComponent, GasGuiElement> {
 
 
     public GasGuiElementWidget(GasGuiElement element, IMachineScreen screen) {
-        super(element, screen, new TextComponent("Gas"));
+        super(element, screen, Component.literal("Gas"));
     }
 
     @Override

@@ -23,7 +23,7 @@ public class InfusionComponentHandler extends ChemicalComponentHandler<InfuseTyp
 
     @Override
     public Capability<IInfusionHandler> targetCap() {
-        return Capabilities.INFUSION_HANDLER_CAPABILITY;
+        return Capabilities.INFUSION_HANDLER;
     }
 
     @Override

@@ -23,7 +23,7 @@ public class SlurryComponentHandler extends ChemicalComponentHandler<Slurry, Slu
 
     @Override
     public Capability<ISlurryHandler> targetCap() {
-        return Capabilities.SLURRY_HANDLER_CAPABILITY;
+        return Capabilities.SLURRY_HANDLER;
     }
 
     @Override

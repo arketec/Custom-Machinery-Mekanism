@@ -17,8 +17,6 @@ import mekanism.common.registries.MekanismItems;
 import mekanism.common.util.UnitDisplayUtils;
 import mekanism.common.util.UnitDisplayUtils.RadiationUnit;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public class RadiationRequirement extends AbstractDelayedChanceableRequirement<RadiationMachineComponent> implements IDisplayInfoRequirement {
 
@@ -26,7 +24,7 @@ public class RadiationRequirement extends AbstractDelayedChanceableRequirement<R
             radiationRequirementInstance.group(
                     RequirementIOMode.CODEC.fieldOf("mode").forGetter(RadiationRequirement::getMode),
                     NamedCodec.doubleRange(0.0D, Double.MAX_VALUE).fieldOf("amount").forGetter(requirement -> requirement.amount),
-                    NamedCodec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("range", MekanismConfig.general.radiationChunkCheckRadius.get() * 16).forGetter(requirement -> requirement.radius),
+                    NamedCodec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("range", () -> MekanismConfig.general.radiationChunkCheckRadius.get() * 16).forGetter(requirement -> requirement.radius),
                     NamedCodec.doubleRange(0.0D, 1.0D).optionalFieldOf("chance", 1.0D).forGetter(RadiationRequirement::getChance),
                     NamedCodec.doubleRange(0.0D, 1.0D).optionalFieldOf("delay", 0.0D).forGetter(RadiationRequirement::getDelay)
             ).apply(radiationRequirementInstance, (mode, amount, radius, chance, delay) -> {
@@ -70,7 +68,7 @@ public class RadiationRequirement extends AbstractDelayedChanceableRequirement<R
 
         double radiations = component.getRadiations();
         if(radiations < this.amount)
-            return CraftingResult.error(new TranslatableComponent("custommachinerymekanism.requirements.radiation.error", sievert(radiations), sievert(this.amount)));
+            return CraftingResult.error(Component.translatable("custommachinerymekanism.requirements.radiation.error", sievert(radiations), sievert(this.amount)));
         component.removeRadiations(this.amount, this.radius);
         return CraftingResult.success();
     }
@@ -89,7 +87,7 @@ public class RadiationRequirement extends AbstractDelayedChanceableRequirement<R
         if(getMode() == RequirementIOMode.INPUT) {
             double radiations = component.getRadiations();
             if(radiations < this.amount)
-                return CraftingResult.error(new TranslatableComponent("custommachinerymekanism.requirements.radiation.error", sievert(radiations), sievert(this.amount)));
+                return CraftingResult.error(Component.translatable("custommachinerymekanism.requirements.radiation.error", sievert(radiations), sievert(this.amount)));
             component.removeRadiations(this.amount, this.radius);
         } else {
             component.addRadiations(this.amount);
@@ -101,16 +99,16 @@ public class RadiationRequirement extends AbstractDelayedChanceableRequirement<R
     public void getDisplayInfo(IDisplayInfo info) {
         if(getMode() == RequirementIOMode.INPUT) {
             info.setItemIcon(MekanismItems.GEIGER_COUNTER.asItem());
-            info.addTooltip(new TranslatableComponent("custommachinerymekanism.requirements.radiation.info.input", sievert(this.amount), this.radius));
+            info.addTooltip(Component.translatable("custommachinerymekanism.requirements.radiation.info.input", sievert(this.amount), this.radius));
         }
         else {
             info.setItemIcon(MekanismItems.GEIGER_COUNTER.asItem());
-            info.addTooltip(new TranslatableComponent("custommachinerymekanism.requirements.radiation.info.output", sievert(this.amount)));
+            info.addTooltip(Component.translatable("custommachinerymekanism.requirements.radiation.info.output", sievert(this.amount)));
         }
     }
 
     private static Component sievert(double amount) {
-        return new TextComponent("")
+        return Component.literal("")
                 .append(UnitDisplayUtils.getDisplayShort(amount, RadiationUnit.SV, 3))
                 .withStyle(RadiationScale.getSeverityColor(amount).getColoredName().getStyle());
     }

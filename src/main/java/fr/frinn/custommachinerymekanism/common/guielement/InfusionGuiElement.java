@@ -11,8 +11,8 @@ public class InfusionGuiElement extends ChemicalGuiElement<InfusionMachineCompon
 
     public static final NamedCodec<InfusionGuiElement> CODEC = makeCodec(InfusionGuiElement::new, "Infusion gui element");
 
-    public InfusionGuiElement(int x, int y, int width, int height, int priority, ResourceLocation texture, String id, boolean highlight) {
-        super(x, y, width, height, priority, texture, id, highlight);
+    public InfusionGuiElement(Properties properties, String id, boolean highlight) {
+        super(properties, id, highlight);
     }
 
     @Override

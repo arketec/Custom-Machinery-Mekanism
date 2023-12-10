@@ -14,7 +14,7 @@ import mekanism.common.MekanismLang;
 import mekanism.common.util.UnitDisplayUtils.TemperatureUnit;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 public class TemperatureIngredientWrapper implements IJEIIngredientWrapper<Heat> {
 
@@ -38,7 +38,7 @@ public class TemperatureIngredientWrapper implements IJEIIngredientWrapper<Heat>
                 .addIngredient(CMMJeiPlugin.HEAT_INGREDIENT, this.ingredient)
                 .addTooltipCallback((view, tooltips) -> {
                     tooltips.clear();
-                    tooltips.add(new TranslatableComponent("custommachinerymekanism.requirements.temp.error", this.temp.toFormattedString()));
+                    tooltips.add(Component.translatable("custommachinerymekanism.requirements.temp.error", this.temp.toFormattedString()));
                     tooltips.add(MekanismLang.UNIT.translate(this.unit.getLabel().translate()));
                 });
         return true;

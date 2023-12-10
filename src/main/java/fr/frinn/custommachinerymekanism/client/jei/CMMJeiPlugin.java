@@ -1,8 +1,10 @@
 package fr.frinn.custommachinerymekanism.client.jei;
 
+import fr.frinn.custommachinery.client.integration.jei.DummyIngredientRenderer;
 import fr.frinn.custommachinerymekanism.CustomMachineryMekanism;
 import fr.frinn.custommachinerymekanism.client.jei.heat.Heat;
 import fr.frinn.custommachinerymekanism.client.jei.heat.HeatIngredientHelper;
+import fr.frinn.custommachinerymekanism.client.jei.heat.HeatJEIIngredientRenderer;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.ingredients.IIngredientType;
@@ -24,6 +26,6 @@ public class CMMJeiPlugin implements IModPlugin {
 
     @Override
     public void registerIngredients(IModIngredientRegistration registration) {
-        registration.register(HEAT_INGREDIENT, Collections.emptyList(), new HeatIngredientHelper(), (ingredient, tooltipFlag) -> Collections.emptyList());
+        registration.register(HEAT_INGREDIENT, Collections.emptyList(), new HeatIngredientHelper(), new DummyIngredientRenderer<>());
     }
 }

@@ -5,12 +5,12 @@ import fr.frinn.custommachinery.api.guielement.IMachineScreen;
 import fr.frinn.custommachinerymekanism.Registration;
 import fr.frinn.custommachinerymekanism.common.component.SlurryMachineComponent;
 import fr.frinn.custommachinerymekanism.common.guielement.SlurryGuiElement;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 
 public class SlurryGuiElementWidget extends ChemicalGuiElementWidget<SlurryMachineComponent, SlurryGuiElement> {
 
     public SlurryGuiElementWidget(SlurryGuiElement element, IMachineScreen screen) {
-        super(element, screen, new TextComponent("Slurry"));
+        super(element, screen, Component.literal("Slurry"));
     }
 
     @Override

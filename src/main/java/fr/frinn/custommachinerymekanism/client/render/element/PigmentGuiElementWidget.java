@@ -5,12 +5,12 @@ import fr.frinn.custommachinery.api.guielement.IMachineScreen;
 import fr.frinn.custommachinerymekanism.Registration;
 import fr.frinn.custommachinerymekanism.common.component.PigmentMachineComponent;
 import fr.frinn.custommachinerymekanism.common.guielement.PigmentGuiElement;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 
 public class PigmentGuiElementWidget extends ChemicalGuiElementWidget<PigmentMachineComponent, PigmentGuiElement> {
 
     public PigmentGuiElementWidget(PigmentGuiElement element, IMachineScreen screen) {
-        super(element, screen, new TextComponent("Pigment"));
+        super(element, screen, Component.literal("Pigment"));
     }
 
     @Override

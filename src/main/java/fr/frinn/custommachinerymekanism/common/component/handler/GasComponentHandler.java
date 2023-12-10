@@ -23,7 +23,7 @@ public class GasComponentHandler extends ChemicalComponentHandler<Gas, GasStack,
 
     @Override
     public Capability<IGasHandler> targetCap() {
-        return Capabilities.GAS_HANDLER_CAPABILITY;
+        return Capabilities.GAS_HANDLER;
     }
 
     @Override

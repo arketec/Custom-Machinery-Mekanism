@@ -11,7 +11,7 @@ import fr.frinn.custommachinery.impl.requirement.AbstractRequirement;
 import fr.frinn.custommachinerymekanism.common.component.handler.ChemicalComponentHandler;
 import mekanism.api.chemical.Chemical;
 import mekanism.api.chemical.ChemicalStack;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 public abstract class ChemicalRequirement<C extends Chemical<C>, S extends ChemicalStack<C>, T extends ChemicalComponentHandler<C, S, ?, ?>> extends AbstractChanceableRequirement<T> implements IJEIIngredientRequirement<S> {
 
@@ -58,7 +58,7 @@ public abstract class ChemicalRequirement<C extends Chemical<C>, S extends Chemi
 
         long amount = (long)context.getModifiedValue(this.amount, this, null);
         if(!test(handler, context))
-            return CraftingResult.error(new TranslatableComponent("custommachinerymekanism.requirements.chemical.error.input", new TranslatableComponent(this.chemical.getTranslationKey()), amount));
+            return CraftingResult.error(Component.translatable("custommachinerymekanism.requirements.chemical.error.input", Component.translatable(this.chemical.getTranslationKey()), amount));
 
         handler.removeFromInputs(this.tank, this.chemical, amount);
         return CraftingResult.success();
@@ -71,7 +71,7 @@ public abstract class ChemicalRequirement<C extends Chemical<C>, S extends Chemi
 
         long amount = (long)context.getModifiedValue(this.amount, this, null);
         if(!test(handler, context))
-            return CraftingResult.error(new TranslatableComponent("custommachinerymekanism.requirements.chemical.error.output", amount, new TranslatableComponent(this.chemical.getTranslationKey())));
+            return CraftingResult.error(Component.translatable("custommachinerymekanism.requirements.chemical.error.output", amount, Component.translatable(this.chemical.getTranslationKey())));
 
         handler.addToOutputs(this.tank, this.chemical, amount);
         return CraftingResult.success();

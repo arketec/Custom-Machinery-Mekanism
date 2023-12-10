@@ -114,7 +114,7 @@ public class HeatMachineComponent extends AbstractMachineComponent implements IS
             BlockEntity be = level.getBlockEntity(pos.relative(side));
             if(be == null)
                 continue;
-            this.neighbours.put(side, be.getCapability(Capabilities.HEAT_HANDLER_CAPABILITY, side.getOpposite()));
+            this.neighbours.put(side, be.getCapability(Capabilities.HEAT_HANDLER, side.getOpposite()));
         }
     }
 

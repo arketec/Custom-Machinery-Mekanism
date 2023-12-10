@@ -13,7 +13,7 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.ingredients.IIngredientType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -53,15 +53,15 @@ public class ChemicalIngredientWrapper<C extends Chemical<C>, S extends Chemical
                     .addIngredient(this.ingredientType, ingredient)
                     .addTooltipCallback((view, tooltips) -> {
                         if(this.isPerTick)
-                            tooltips.add(new TranslatableComponent("custommachinery.jei.ingredient.fluid.pertick"));
+                            tooltips.add(Component.translatable("custommachinery.jei.ingredient.fluid.pertick"));
 
                         if(this.chance == 0)
-                            tooltips.add(new TranslatableComponent("custommachinery.jei.ingredient.chance.0").withStyle(ChatFormatting.DARK_RED));
+                            tooltips.add(Component.translatable("custommachinery.jei.ingredient.chance.0").withStyle(ChatFormatting.DARK_RED));
                         else if(this.chance != 1.0)
-                            tooltips.add(new TranslatableComponent("custommachinery.jei.ingredient.chance", (int)(this.chance * 100)));
+                            tooltips.add(Component.translatable("custommachinery.jei.ingredient.chance", (int)(this.chance * 100)));
 
                         if(!this.tank.isEmpty() && Minecraft.getInstance().options.advancedItemTooltips)
-                            tooltips.add(new TranslatableComponent("custommachinery.jei.ingredient.fluid.specificTank").withStyle(ChatFormatting.DARK_RED));
+                            tooltips.add(Component.translatable("custommachinery.jei.ingredient.fluid.specificTank").withStyle(ChatFormatting.DARK_RED));
                     });
             return true;
         }

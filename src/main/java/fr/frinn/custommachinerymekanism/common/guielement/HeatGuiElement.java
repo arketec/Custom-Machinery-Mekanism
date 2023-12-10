@@ -15,15 +15,16 @@ public class HeatGuiElement extends AbstractTexturedGuiElement implements ICompo
     private static final ResourceLocation BASE_TEXTURE = ICustomMachineryAPI.INSTANCE.rl("textures/gui/base_fluid_storage.png");
 
     public static final NamedCodec<HeatGuiElement> CODEC = NamedCodec.record(instance ->
-            makeBaseTexturedCodec(instance, BASE_TEXTURE)
-                    .and(NamedCodec.BOOL.optionalFieldOf("highlight", true).forGetter(HeatGuiElement::highlight))
-                    .apply(instance, HeatGuiElement::new), "Heat gui element"
+            instance.group(
+                    makePropertiesCodec(BASE_TEXTURE).forGetter(HeatGuiElement::getProperties),
+                    NamedCodec.BOOL.optionalFieldOf("highlight", true).forGetter(HeatGuiElement::highlight)
+            ).apply(instance, HeatGuiElement::new), "Heat gui element"
     );
 
     private final boolean highlight;
 
-    public HeatGuiElement(int x, int y, int width, int height, int priority, ResourceLocation texture, boolean highlight) {
-        super(x, y, width, height, priority, texture);
+    public HeatGuiElement(Properties properties, boolean highlight) {
+        super(properties);
         this.highlight = highlight;
     }
 

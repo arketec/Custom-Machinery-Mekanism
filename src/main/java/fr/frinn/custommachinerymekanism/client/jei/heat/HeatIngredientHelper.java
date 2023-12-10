@@ -5,7 +5,8 @@ import fr.frinn.custommachinerymekanism.client.jei.CMMJeiPlugin;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 public class HeatIngredientHelper implements IIngredientHelper<Heat> {
@@ -17,7 +18,7 @@ public class HeatIngredientHelper implements IIngredientHelper<Heat> {
 
     @Override
     public String getDisplayName(Heat ingredient) {
-        return new TranslatableComponent("custommachinerymekanism.jei.ingredient.heat", ingredient.amount()).getString();
+        return Component.translatable("custommachinerymekanism.jei.ingredient.heat", ingredient.amount()).getString();
     }
 
     @Override
@@ -25,16 +26,9 @@ public class HeatIngredientHelper implements IIngredientHelper<Heat> {
         return "" + ingredient.amount() + ingredient.chance() + ingredient.isPerTick();
     }
 
-    @SuppressWarnings("removal")
     @Override
-    public String getModId(Heat ingredient) {
-        return CustomMachineryMekanism.MODID;
-    }
-
-    @SuppressWarnings("removal")
-    @Override
-    public String getResourceId(Heat ingredient) {
-        return "heat";
+    public ResourceLocation getResourceLocation(Heat ingredient) {
+        return new ResourceLocation(CustomMachineryMekanism.MODID, "heat");
     }
 
     @Override

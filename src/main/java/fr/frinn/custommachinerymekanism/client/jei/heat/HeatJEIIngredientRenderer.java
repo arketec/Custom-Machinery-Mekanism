@@ -9,7 +9,6 @@ import mezz.jei.api.ingredients.IIngredientType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.item.TooltipFlag;
 
@@ -50,19 +49,19 @@ public class HeatJEIIngredientRenderer extends JEIIngredientRenderer<Heat, HeatG
         List<Component> tooltips = new ArrayList<>();
         if(ingredient.isPerTick()) {
             if(ingredient.mode() == RequirementIOMode.INPUT)
-                tooltips.add(new TranslatableComponent("custommachinerymekanism.jei.ingredient.heat.pertick.input", ingredient.amount()));
+                tooltips.add(Component.translatable("custommachinerymekanism.jei.ingredient.heat.pertick.input", ingredient.amount()));
             else
-                tooltips.add(new TranslatableComponent("custommachinerymekanism.jei.ingredient.heat.pertick.output", ingredient.amount()));
+                tooltips.add(Component.translatable("custommachinerymekanism.jei.ingredient.heat.pertick.output", ingredient.amount()));
         } else {
             if(ingredient.mode() == RequirementIOMode.INPUT)
-                tooltips.add(new TranslatableComponent("custommachinerymekanism.jei.ingredient.heat.input", ingredient.amount()));
+                tooltips.add(Component.translatable("custommachinerymekanism.jei.ingredient.heat.input", ingredient.amount()));
             else
-                tooltips.add(new TranslatableComponent("custommachinerymekanism.jei.ingredient.heat.output", ingredient.amount()));
+                tooltips.add(Component.translatable("custommachinerymekanism.jei.ingredient.heat.output", ingredient.amount()));
         }
         if(ingredient.chance() == 0)
-            tooltips.add(new TranslatableComponent("custommachinery.jei.ingredient.chance.0").withStyle(ChatFormatting.DARK_RED));
+            tooltips.add(Component.translatable("custommachinery.jei.ingredient.chance.0").withStyle(ChatFormatting.DARK_RED));
         if(ingredient.chance() < 1.0D && ingredient.chance() > 0)
-            tooltips.add(new TranslatableComponent("custommachinery.jei.ingredient.chance", (int)(ingredient.chance() * 100)));
+            tooltips.add(Component.translatable("custommachinery.jei.ingredient.chance", (int)(ingredient.chance() * 100)));
         return tooltips;
     }
 }

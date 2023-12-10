@@ -23,7 +23,7 @@ public class PigmentComponentHandler extends ChemicalComponentHandler<Pigment, P
 
     @Override
     public Capability<IPigmentHandler> targetCap() {
-        return Capabilities.PIGMENT_HANDLER_CAPABILITY;
+        return Capabilities.PIGMENT_HANDLER;
     }
 
     @Override

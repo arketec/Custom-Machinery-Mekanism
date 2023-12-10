@@ -15,7 +15,7 @@ import fr.frinn.custommachinerymekanism.client.jei.heat.Heat;
 import fr.frinn.custommachinerymekanism.client.jei.wrapper.HeatIngredientWrapper;
 import fr.frinn.custommachinerymekanism.common.component.HeatMachineComponent;
 import mekanism.api.heat.IHeatCapacitor;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 import java.util.Collections;
 import java.util.List;
@@ -69,7 +69,7 @@ public class HeatRequirement extends AbstractDelayedChanceableRequirement<HeatMa
         double amount = context.getModifiedValue(this.amount, this, null);
         IHeatCapacitor capacitor = component.getHeatCapacitors(null).get(0);
         if(capacitor.getHeat() < amount)
-            return CraftingResult.error(new TranslatableComponent("custommachinerymekanism.requirements.heat.error.input", amount, capacitor.getHeat()));
+            return CraftingResult.error(Component.translatable("custommachinerymekanism.requirements.heat.error.input", amount, capacitor.getHeat()));
         capacitor.handleHeat(-amount);
         return CraftingResult.success();
     }
@@ -90,7 +90,7 @@ public class HeatRequirement extends AbstractDelayedChanceableRequirement<HeatMa
         IHeatCapacitor capacitor = component.getHeatCapacitors(null).get(0);
         if(getMode() == RequirementIOMode.INPUT) {
             if(capacitor.getHeat() < amount)
-                return CraftingResult.error(new TranslatableComponent("custommachinerymekanism.requirements.heat.error.input", amount, capacitor.getHeat()));
+                return CraftingResult.error(Component.translatable("custommachinerymekanism.requirements.heat.error.input", amount, capacitor.getHeat()));
             capacitor.handleHeat(-amount);
             return CraftingResult.success();
         } else {

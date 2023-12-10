@@ -22,11 +22,11 @@ import java.util.function.Function;
 public class CustomMachineryMekanismKubeJSPlugin extends KubeJSPlugin {
 
     @Override
-    public void addTypeWrappers(ScriptType type, TypeWrappers typeWrappers) {
-        typeWrappers.register(GasStack.class, o -> of(o, MekanismAPI.EMPTY_GAS, GasStack.EMPTY, MekanismAPI.gasRegistry()::getValue, GasStack::new));
-        typeWrappers.register(InfusionStack.class, o -> of(o, MekanismAPI.EMPTY_INFUSE_TYPE, InfusionStack.EMPTY, MekanismAPI.infuseTypeRegistry()::getValue, InfusionStack::new));
-        typeWrappers.register(PigmentStack.class, o -> of(o, MekanismAPI.EMPTY_PIGMENT, PigmentStack.EMPTY, MekanismAPI.pigmentRegistry()::getValue, PigmentStack::new));
-        typeWrappers.register(SlurryStack.class, o -> of(o, MekanismAPI.EMPTY_SLURRY, SlurryStack.EMPTY, MekanismAPI.slurryRegistry()::getValue, SlurryStack::new));
+    public void registerTypeWrappers(ScriptType type, TypeWrappers typeWrappers) {
+        typeWrappers.register(GasStack.class, (ctx, o) -> of(o, MekanismAPI.EMPTY_GAS, GasStack.EMPTY, MekanismAPI.gasRegistry()::getValue, GasStack::new));
+        typeWrappers.register(InfusionStack.class, (ctx, o) -> of(o, MekanismAPI.EMPTY_INFUSE_TYPE, InfusionStack.EMPTY, MekanismAPI.infuseTypeRegistry()::getValue, InfusionStack::new));
+        typeWrappers.register(PigmentStack.class, (ctx, o) -> of(o, MekanismAPI.EMPTY_PIGMENT, PigmentStack.EMPTY, MekanismAPI.pigmentRegistry()::getValue, PigmentStack::new));
+        typeWrappers.register(SlurryStack.class, (ctx, o) -> of(o, MekanismAPI.EMPTY_SLURRY, SlurryStack.EMPTY, MekanismAPI.slurryRegistry()::getValue, SlurryStack::new));
         typeWrappers.register(TemperatureUnit.class, EnumTypeWrapper.get(TemperatureUnit.class));
     }
 

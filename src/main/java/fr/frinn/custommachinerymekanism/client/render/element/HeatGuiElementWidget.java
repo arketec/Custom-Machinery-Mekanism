@@ -14,7 +14,6 @@ import mekanism.common.util.UnitDisplayUtils;
 import mekanism.common.util.UnitDisplayUtils.TemperatureUnit;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 
@@ -26,7 +25,7 @@ public class HeatGuiElementWidget extends TexturedGuiElementWidget<HeatGuiElemen
 
 
     public HeatGuiElementWidget(HeatGuiElement element, IMachineScreen screen) {
-        super(element, screen, new TextComponent("Heat"));
+        super(element, screen, Component.literal("Heat"));
     }
 
     @Override

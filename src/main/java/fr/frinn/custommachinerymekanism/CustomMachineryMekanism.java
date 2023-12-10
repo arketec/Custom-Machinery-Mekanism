@@ -54,27 +54,27 @@ public class CustomMachineryMekanism {
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction side) {
                     IMachineComponentManager manager = machine.getComponentManager();
 
-                    if(capability == Capabilities.GAS_HANDLER_CAPABILITY)
+                    if(capability == Capabilities.GAS_HANDLER)
                         return manager.getComponentHandler(Registration.GAS_MACHINE_COMPONENT.get())
                                 .map(handler -> ((GasComponentHandler)handler).getSidedHandler(side))
                                 .orElse(LazyOptional.empty())
                                 .cast();
-                    else if(capability == Capabilities.INFUSION_HANDLER_CAPABILITY)
+                    else if(capability == Capabilities.INFUSION_HANDLER)
                         return manager.getComponentHandler(Registration.INFUSION_MACHINE_COMPONENT.get())
                                 .map(handler -> ((InfusionComponentHandler)handler).getSidedHandler(side))
                                 .orElse(LazyOptional.empty())
                                 .cast();
-                    else if(capability == Capabilities.PIGMENT_HANDLER_CAPABILITY)
+                    else if(capability == Capabilities.PIGMENT_HANDLER)
                         return manager.getComponentHandler(Registration.PIGMENT_MACHINE_COMPONENT.get())
                                 .map(handler -> ((PigmentComponentHandler)handler).getSidedHandler(side))
                                 .orElse(LazyOptional.empty())
                                 .cast();
-                    else if(capability == Capabilities.SLURRY_HANDLER_CAPABILITY)
+                    else if(capability == Capabilities.SLURRY_HANDLER)
                         return manager.getComponentHandler(Registration.SLURRY_MACHINE_COMPONENT.get())
                                 .map(handler -> ((SlurryComponentHandler)handler).getSidedHandler(side))
                                 .orElse(LazyOptional.empty())
                                 .cast();
-                    else if(capability == Capabilities.HEAT_HANDLER_CAPABILITY)
+                    else if(capability == Capabilities.HEAT_HANDLER)
                         return manager.getComponent(Registration.HEAT_MACHINE_COMPONENT.get())
                                 .map(component -> component.getHeatHandler(side))
                                 .orElse(LazyOptional.empty())

@@ -11,8 +11,8 @@ public class GasGuiElement extends ChemicalGuiElement<GasMachineComponent> {
 
     public static final NamedCodec<GasGuiElement> CODEC = makeCodec(GasGuiElement::new, "Gas gui element");
 
-    public GasGuiElement(int x, int y, int width, int height, int priority, ResourceLocation texture, String id, boolean highlight) {
-        super(x, y, width, height, priority, texture, id, highlight);
+    public GasGuiElement(Properties properties, String id, boolean highlight) {
+        super(properties, id, highlight);
     }
 
     @Override

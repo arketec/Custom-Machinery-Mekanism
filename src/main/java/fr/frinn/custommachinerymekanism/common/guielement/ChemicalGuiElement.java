@@ -1,5 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.guielement;
 
+import com.mojang.datafixers.util.Function3;
 import com.mojang.datafixers.util.Function8;
 import fr.frinn.custommachinery.api.ICustomMachineryAPI;
 import fr.frinn.custommachinery.api.codec.NamedCodec;
@@ -12,20 +13,21 @@ public abstract class ChemicalGuiElement<C extends ChemicalMachineComponent<?, ?
 
     private static final ResourceLocation BASE_TEXTURE = ICustomMachineryAPI.INSTANCE.rl("textures/gui/base_fluid_storage.png");
 
-    public static <C extends ChemicalGuiElement<?>> NamedCodec<C> makeCodec(Function8<Integer, Integer, Integer, Integer, Integer, ResourceLocation, String, Boolean, C> constructor, String name) {
+    public static <C extends ChemicalGuiElement<?>> NamedCodec<C> makeCodec(Function3<Properties, String, Boolean, C> constructor, String name) {
         return NamedCodec.record(elementInstance ->
-                makeBaseTexturedCodec(elementInstance, BASE_TEXTURE)
-                        .and(NamedCodec.STRING.fieldOf("id").forGetter(ChemicalGuiElement::getID))
-                        .and(NamedCodec.BOOL.optionalFieldOf("highlight", true).forGetter(ChemicalGuiElement::highlight))
-                        .apply(elementInstance, constructor), name
+                elementInstance.group(
+                        makePropertiesCodec(BASE_TEXTURE).forGetter(ChemicalGuiElement::getProperties),
+                        NamedCodec.STRING.fieldOf("id").forGetter(ChemicalGuiElement::getID),
+                        NamedCodec.BOOL.optionalFieldOf("highlight", true).forGetter(ChemicalGuiElement::highlight)
+                ).apply(elementInstance, constructor), name
         );
     }
 
     private final String id;
     private final boolean highlight;
 
-    public ChemicalGuiElement(int x, int y, int width, int height, int priority, ResourceLocation texture, String id, boolean highlight) {
-        super(x, y, width, height, priority, texture);
+    public ChemicalGuiElement(Properties properties, String id, boolean highlight) {
+        super(properties);
         this.id = id;
         this.highlight = highlight;
     }
