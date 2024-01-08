@@ -26,7 +26,9 @@ import mekanism.common.integration.crafttweaker.chemical.ICrTChemicalStack.ICrTG
 import mekanism.common.integration.crafttweaker.chemical.ICrTChemicalStack.ICrTInfusionStack;
 import mekanism.common.integration.crafttweaker.chemical.ICrTChemicalStack.ICrTPigmentStack;
 import mekanism.common.integration.crafttweaker.chemical.ICrTChemicalStack.ICrTSlurryStack;
+import org.openzen.zencode.java.ZenCodeType.Getter;
 import org.openzen.zencode.java.ZenCodeType.Method;
+import org.openzen.zencode.java.ZenCodeType.Setter;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -263,6 +265,7 @@ public class MachineCTMixin {
     /** HEAT **/
 
     @Method
+    @Getter("heat")
     public double getHeat() {
         return this.internal.getComponentManager().getComponent(Registration.HEAT_MACHINE_COMPONENT.get())
                 .flatMap(component -> Optional.ofNullable(component.getHeatCapacitor(0, null)))
@@ -271,6 +274,7 @@ public class MachineCTMixin {
     }
 
     @Method
+    @Getter("temperature")
     public double getTemperature() {
         return this.internal.getComponentManager().getComponent(Registration.HEAT_MACHINE_COMPONENT.get())
                 .flatMap(component -> Optional.ofNullable(component.getHeatCapacitor(0, null)))
@@ -286,6 +290,7 @@ public class MachineCTMixin {
     }
 
     @Method
+    @Setter("heat")
     public void setHeat(double heat) {
         this.internal.getComponentManager().getComponent(Registration.HEAT_MACHINE_COMPONENT.get())
                 .flatMap(component -> Optional.ofNullable(component.getHeatCapacitor(0, null)))
@@ -295,6 +300,7 @@ public class MachineCTMixin {
     /** RADIATION **/
 
     @Method
+    @Getter("radiations")
     public double getRadiations() {
         return this.internal.getComponentManager().getComponent(Registration.RADIATION_MACHINE_COMPONENT.get())
                 .map(RadiationMachineComponent::getRadiations)
