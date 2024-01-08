@@ -1,6 +1,6 @@
 {
   "custommachinerymekanism.requirements.chemical.error.input": "Not enough %s, %smB needed !",
-  "custommachinerymekanism.requirements.chemical.error.output": "Not enough space to store %mb of %s !",
+  "custommachinerymekanism.requirements.chemical.error.output": "Not enough space to store %smb of %s !",
   "custommachinerymekanism.requirements.heat.error.input": "Not enough stored heat, %s needed but %s found !",
   "custommachinerymekanism.requirements.temp.error": "Temperature required: %s",
   "custommachinerymekanism.requirements.radiation.error": "Not enough radiations: %s, %s needed !",

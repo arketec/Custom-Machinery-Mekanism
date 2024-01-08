@@ -37,7 +37,8 @@ import java.util.stream.Collectors;
 
 public abstract class ChemicalComponentHandler<C extends Chemical<C>, S extends ChemicalStack<C>, H extends IChemicalHandler<C, S>, T extends ChemicalMachineComponent<C, S>> extends AbstractComponentHandler<T> implements ISerializableComponent, ISyncableStuff, ITickableComponent, IDumpComponent {
 
-    private final LazyOptional<H> generalHandler = LazyOptional.of(() -> createSidedHandler(null));
+    private final H generalHandler = createSidedHandler(null);
+    private final LazyOptional<H> generalHandlerCap = LazyOptional.of(() -> generalHandler);
     private final Map<Direction, LazyOptional<H>> sidedHandlers = Maps.newEnumMap(Direction.class);
 
     private final List<T> inputs;
@@ -61,8 +62,12 @@ public abstract class ChemicalComponentHandler<C extends Chemical<C>, S extends 
     @NotNull
     public LazyOptional<H> getSidedHandler(@Nullable Direction side) {
         if(side == null)
-            return this.generalHandler;
+            return this.generalHandlerCap;
         return this.sidedHandlers.get(side);
+    }
+
+    public H getGeneralHandler() {
+        return this.generalHandler;
     }
 
     @Override
