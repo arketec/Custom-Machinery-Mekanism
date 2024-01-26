@@ -16,8 +16,8 @@ import java.util.List;
 
 public class PigmentMachineComponent extends ChemicalMachineComponent<Pigment, PigmentStack> {
 
-    public PigmentMachineComponent(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<Pigment> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
-        super(manager, id, capacity, mode, filter, whitelist, maxInput, maxOutput, config);
+    public PigmentMachineComponent(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<Pigment> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config, boolean unique) {
+        super(manager, id, capacity, mode, filter, whitelist, maxInput, maxOutput, config, unique);
     }
 
     @Override
@@ -44,8 +44,8 @@ public class PigmentMachineComponent extends ChemicalMachineComponent<Pigment, P
 
         public static final NamedCodec<ChemicalMachineComponent.Template<Pigment, PigmentStack, PigmentMachineComponent>> CODEC = makeCodec(Codecs.PIGMENT, Template::new);
 
-        public Template(String id, long capacity, ComponentIOMode mode, List<Pigment> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
-            super(id, capacity, mode, filter, whitelist, maxInput, maxOutput, config);
+        public Template(String id, long capacity, ComponentIOMode mode, List<Pigment> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config, boolean unique) {
+            super(id, capacity, mode, filter, whitelist, maxInput, maxOutput, config, unique);
         }
 
         @Override
@@ -54,8 +54,8 @@ public class PigmentMachineComponent extends ChemicalMachineComponent<Pigment, P
         }
 
         @Override
-        public PigmentMachineComponent build(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<Pigment> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
-            return new PigmentMachineComponent(manager, id, capacity, mode, filter, whitelist, maxInput, maxOutput, config);
+        public PigmentMachineComponent build(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<Pigment> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config, boolean unique) {
+            return new PigmentMachineComponent(manager, id, capacity, mode, filter, whitelist, maxInput, maxOutput, config, unique);
         }
 
         @Override

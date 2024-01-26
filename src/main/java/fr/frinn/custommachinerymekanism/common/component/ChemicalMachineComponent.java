@@ -1,6 +1,6 @@
 package fr.frinn.custommachinerymekanism.common.component;
 
-import com.mojang.datafixers.util.Function8;
+import com.mojang.datafixers.util.Function9;
 import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.ComponentIOMode;
 import fr.frinn.custommachinery.api.component.IComparatorInputComponent;
@@ -33,10 +33,11 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
     private final long maxInput;
     private final long maxOutput;
     private final SideConfig config;
+    private final boolean unique;
 
     private S stack = empty();
 
-    public ChemicalMachineComponent(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<C> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
+    public ChemicalMachineComponent(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<C> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config, boolean unique) {
         super(manager, mode);
         this.id = id;
         this.capacity = capacity;
@@ -45,6 +46,7 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
         this.maxInput = maxInput;
         this.maxOutput = maxOutput;
         this.config = config.build(this);
+        this.unique = unique;
     }
 
     public abstract S empty();
@@ -75,7 +77,20 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
     }
 
     public boolean isValid(S stack) {
-        return this.filter.stream().anyMatch(gas -> gas == stack.getType()) == this.whitelist;
+        //Check unique
+        if(this.unique && this.stack.isEmpty() && this.getManager()
+                .getComponentHandler(getType())
+                .stream()
+                .flatMap(handler -> handler.getComponents().stream())
+                .anyMatch(component -> component != this && component instanceof ChemicalMachineComponent<?, ?> chemical && stack.getType() == chemical.stack.getType()))
+            return false;
+
+        //Check filter
+        if(this.filter.stream().anyMatch(gas -> gas == stack.getType()) != this.whitelist)
+            return false;
+
+        //Check if same chemical
+        return this.stack.isEmpty() || this.stack.isTypeEqual(stack);
     }
 
     //Return the remaining that was not inserted
@@ -143,7 +158,7 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
 
     public static abstract class Template<C extends Chemical<C>, S extends ChemicalStack<C>, T extends ChemicalMachineComponent<C, S>> implements IMachineComponentTemplate<T> {
 
-        public static <C extends Chemical<C>, S extends ChemicalStack<C>, T extends ChemicalMachineComponent<C, S>> NamedCodec<Template<C, S, T>> makeCodec(NamedCodec<C> codec, Function8<String, Long, ComponentIOMode, List<C>, Boolean, Long, Long, SideConfig.Template, Template<C, S, T>> builder) {
+        public static <C extends Chemical<C>, S extends ChemicalStack<C>, T extends ChemicalMachineComponent<C, S>> NamedCodec<Template<C, S, T>> makeCodec(NamedCodec<C> codec, Function9<String, Long, ComponentIOMode, List<C>, Boolean, Long, Long, SideConfig.Template, Boolean, Template<C, S, T>> builder) {
             return NamedCodec.record(templateInstance ->
                     templateInstance.group(
                             NamedCodec.STRING.fieldOf("id").forGetter(template -> template.id),
@@ -153,9 +168,10 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
                             NamedCodec.BOOL.optionalFieldOf("whitelist", false).forGetter(template -> template.whitelist),
                             NamedCodec.LONG.optionalFieldOf("max_input").forGetter(template -> Optional.of(template.maxInput)),
                             NamedCodec.LONG.optionalFieldOf("max_output").forGetter(template -> Optional.of(template.maxOutput)),
-                            SideConfig.Template.CODEC.optionalFieldOf("config").forGetter(template -> Optional.of(template.config))
-                    ).apply(templateInstance, (id, capacity, mode, filter, whitelist, maxInput, maxOutput, config) ->
-                            builder.apply(id, capacity, mode, filter, whitelist, maxInput.orElse(capacity), maxOutput.orElse(capacity), config.orElse(mode.getBaseConfig()))
+                            SideConfig.Template.CODEC.optionalFieldOf("config").forGetter(template -> Optional.of(template.config)),
+                            NamedCodec.BOOL.optionalFieldOf("unique", false).forGetter(template -> template.unique)
+                    ).apply(templateInstance, (id, capacity, mode, filter, whitelist, maxInput, maxOutput, config, unique) ->
+                            builder.apply(id, capacity, mode, filter, whitelist, maxInput.orElse(capacity), maxOutput.orElse(capacity), config.orElse(mode.getBaseConfig()), unique)
                     ), codec.name() + " machine component"
             );
         }
@@ -168,8 +184,9 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
         private final long maxInput;
         private final long maxOutput;
         private final SideConfig.Template config;
+        private final boolean unique;
 
-        public Template(String id, long capacity, ComponentIOMode mode, List<C> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
+        public Template(String id, long capacity, ComponentIOMode mode, List<C> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config, boolean unique) {
             this.id = id;
             this.capacity = capacity;
             this.mode = mode;
@@ -178,6 +195,7 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
             this.maxInput = maxInput;
             this.maxOutput = maxOutput;
             this.config = config;
+            this.unique = unique;
         }
 
         public abstract boolean isSameType(ChemicalStack<?> stack);
@@ -203,11 +221,11 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
             return false;
         }
 
-        public abstract T build(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<C> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config);
+        public abstract T build(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<C> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config, boolean unique);
 
         @Override
         public T build(IMachineComponentManager manager) {
-            return build(manager, this.id, this.capacity, this.mode, this.filter, this.whitelist, this.maxInput, this.maxOutput, this.config);
+            return build(manager, this.id, this.capacity, this.mode, this.filter, this.whitelist, this.maxInput, this.maxOutput, this.config, this.unique);
         }
     }
 }

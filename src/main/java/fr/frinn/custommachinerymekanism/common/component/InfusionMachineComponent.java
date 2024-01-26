@@ -16,8 +16,8 @@ import java.util.List;
 
 public class InfusionMachineComponent extends ChemicalMachineComponent<InfuseType, InfusionStack> {
 
-    public InfusionMachineComponent(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<InfuseType> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
-        super(manager, id, capacity, mode, filter, whitelist, maxInput, maxOutput, config);
+    public InfusionMachineComponent(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<InfuseType> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config, boolean unique) {
+        super(manager, id, capacity, mode, filter, whitelist, maxInput, maxOutput, config, unique);
     }
 
     @Override
@@ -44,8 +44,8 @@ public class InfusionMachineComponent extends ChemicalMachineComponent<InfuseTyp
 
         public static final NamedCodec<ChemicalMachineComponent.Template<InfuseType, InfusionStack, InfusionMachineComponent>> CODEC = makeCodec(Codecs.INFUSE_TYPE, Template::new);
 
-        public Template(String id, long capacity, ComponentIOMode mode, List<InfuseType> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
-            super(id, capacity, mode, filter, whitelist, maxInput, maxOutput, config);
+        public Template(String id, long capacity, ComponentIOMode mode, List<InfuseType> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config, boolean unique) {
+            super(id, capacity, mode, filter, whitelist, maxInput, maxOutput, config, unique);
         }
 
         @Override
@@ -54,8 +54,8 @@ public class InfusionMachineComponent extends ChemicalMachineComponent<InfuseTyp
         }
 
         @Override
-        public InfusionMachineComponent build(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<InfuseType> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config) {
-            return new InfusionMachineComponent(manager, id, capacity, mode, filter, whitelist, maxInput, maxOutput, config);
+        public InfusionMachineComponent build(IMachineComponentManager manager, String id, long capacity, ComponentIOMode mode, List<InfuseType> filter, boolean whitelist, long maxInput, long maxOutput, SideConfig.Template config, boolean unique) {
+            return new InfusionMachineComponent(manager, id, capacity, mode, filter, whitelist, maxInput, maxOutput, config, unique);
         }
 
         @Override

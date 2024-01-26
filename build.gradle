@@ -96,6 +96,13 @@ repositories {
             includeGroup "com.communi-suggestu.saecularia-caudices"
         }
     }
+    maven {
+        name = "Curse maven"
+        url = "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
@@ -129,6 +136,9 @@ dependencies {
 
     //The one probe
     modLocalRuntime("mcjty.theoneprobe:theoneprobe:${project.top_version}") {transitive = false}
+
+    //Jade
+    modLocalRuntime modCompileOnly("curse.maven:jade-324717:4433884")
 }
 
 processResources {
