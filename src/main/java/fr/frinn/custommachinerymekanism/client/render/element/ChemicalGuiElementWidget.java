@@ -36,7 +36,7 @@ public abstract class ChemicalGuiElementWidget<C extends ChemicalMachineComponen
     @Override
     public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
         super.renderButton(poseStack, mouseX, mouseY, partialTicks);
-        this.getScreen().getTile().getComponentManager().getComponentHandler(componentType()).flatMap(gasHandler -> gasHandler.getComponentForID(this.getElement().getID())).ifPresent(component -> {
+        this.getScreen().getTile().getComponentManager().getComponentHandler(componentType()).flatMap(gasHandler -> gasHandler.getComponentForID(this.getElement().getComponentId())).ifPresent(component -> {
             ChemicalStack<?> stack = component.getStack();
             if(!stack.isEmpty()) {
                 RenderSystem.enableBlend();
@@ -64,7 +64,7 @@ public abstract class ChemicalGuiElementWidget<C extends ChemicalMachineComponen
     public List<Component> getTooltips() {
         return this.getScreen().getTile().getComponentManager()
                 .getComponentHandler(componentType())
-                .flatMap(gasHandler -> gasHandler.getComponentForID(this.getElement().getID()))
+                .flatMap(gasHandler -> gasHandler.getComponentForID(this.getElement().getComponentId()))
                 .map(component -> {
                     ChemicalStack<?> stack = component.getStack();
                     List<Component> tooltips = new ArrayList<>();

@@ -43,7 +43,7 @@ public class HeatGuiElement extends AbstractTexturedGuiElement implements ICompo
     }
 
     @Override
-    public String getID() {
+    public String getComponentId() {
         return "Heat";
     }
 }

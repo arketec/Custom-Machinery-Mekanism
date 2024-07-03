@@ -17,7 +17,7 @@ public abstract class ChemicalGuiElement<C extends ChemicalMachineComponent<?, ?
         return NamedCodec.record(elementInstance ->
                 elementInstance.group(
                         makePropertiesCodec(BASE_TEXTURE).forGetter(ChemicalGuiElement::getProperties),
-                        NamedCodec.STRING.fieldOf("id").forGetter(ChemicalGuiElement::getID),
+                        NamedCodec.STRING.fieldOf("id").forGetter(ChemicalGuiElement::getComponentId),
                         NamedCodec.BOOL.optionalFieldOf("highlight", true).forGetter(ChemicalGuiElement::highlight)
                 ).apply(elementInstance, constructor), name
         );
@@ -33,7 +33,7 @@ public abstract class ChemicalGuiElement<C extends ChemicalMachineComponent<?, ?
     }
 
     @Override
-    public String getID() {
+    public String getComponentId() {
         return this.id;
     }
 
