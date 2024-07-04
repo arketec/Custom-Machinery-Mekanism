@@ -207,7 +207,7 @@ public abstract class ChemicalMachineComponent<C extends Chemical<C>, S extends 
 
         @Override
         public boolean canAccept(Object ingredient, boolean isInput, IMachineComponentManager manager) {
-            if(isInput != this.mode.isInput())
+            if(this.mode != ComponentIOMode.BOTH && isInput != this.mode.isInput())
                 return false;
             if(ingredient instanceof ChemicalStack<?> stack && isSameType(stack)) {
                 return this.filter.stream().anyMatch(g -> g == stack.getType()) == this.whitelist;
