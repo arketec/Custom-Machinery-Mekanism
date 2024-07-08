@@ -1,13 +1,12 @@
 package fr.frinn.custommachinerymekanism.client.jei.heat;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import fr.frinn.custommachinery.api.integration.jei.JEIIngredientRenderer;
 import fr.frinn.custommachinery.api.requirement.RequirementIOMode;
 import fr.frinn.custommachinerymekanism.client.jei.CMMJeiPlugin;
 import fr.frinn.custommachinerymekanism.common.guielement.HeatGuiElement;
 import mezz.jei.api.ingredients.IIngredientType;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.item.TooltipFlag;
@@ -36,12 +35,14 @@ public class HeatJEIIngredientRenderer extends JEIIngredientRenderer<Heat, HeatG
         return this.element.getHeight() - 2;
     }
 
+
+
     @Override
-    public void render(PoseStack pose, Heat ingredient) {
+    public void render(GuiGraphics guiGraphics, Heat ingredient) {
         int width = this.element.getWidth();
         int height = this.element.getHeight();
 
-        GuiComponent.fill(pose, 0, 0, width - 2, height - 2, FastColor.ARGB32.color(200, 255, 128, 0));
+        guiGraphics.fill(0, 0, width - 2, height - 2, FastColor.ARGB32.color(200, 255, 128, 0));
     }
 
     @Override

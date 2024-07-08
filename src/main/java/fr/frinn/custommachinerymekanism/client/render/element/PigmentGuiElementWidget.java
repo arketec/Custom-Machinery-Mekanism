@@ -5,6 +5,7 @@ import fr.frinn.custommachinery.api.guielement.IMachineScreen;
 import fr.frinn.custommachinerymekanism.Registration;
 import fr.frinn.custommachinerymekanism.common.component.PigmentMachineComponent;
 import fr.frinn.custommachinerymekanism.common.guielement.PigmentGuiElement;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 
 public class PigmentGuiElementWidget extends ChemicalGuiElementWidget<PigmentMachineComponent, PigmentGuiElement> {
@@ -16,5 +17,10 @@ public class PigmentGuiElementWidget extends ChemicalGuiElementWidget<PigmentMac
     @Override
     public MachineComponentType<PigmentMachineComponent> componentType() {
         return Registration.PIGMENT_MACHINE_COMPONENT.get();
+    }
+
+    @Override
+    protected void updateWidgetNarration(NarrationElementOutput arg) {
+        
     }
 }

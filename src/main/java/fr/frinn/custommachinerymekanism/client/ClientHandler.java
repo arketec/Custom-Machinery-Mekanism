@@ -1,7 +1,6 @@
 package fr.frinn.custommachinerymekanism.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import fr.frinn.custommachinery.api.guielement.RegisterGuiElementWidgetSupplierEvent;
 import fr.frinn.custommachinery.api.integration.jei.RegisterGuiElementJEIRendererEvent;
 import fr.frinn.custommachinerymekanism.Registration;
@@ -12,7 +11,7 @@ import fr.frinn.custommachinerymekanism.client.render.element.HeatGuiElementWidg
 import fr.frinn.custommachinerymekanism.client.render.element.InfusionGuiElementWidget;
 import fr.frinn.custommachinerymekanism.client.render.element.PigmentGuiElementWidget;
 import fr.frinn.custommachinerymekanism.client.render.element.SlurryGuiElementWidget;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
@@ -47,10 +46,10 @@ public class ClientHandler {
         RenderSystem.setShaderTexture(0, texture);
     }
 
-    public static void renderSlotHighlight(PoseStack pose, int x, int y, int width, int height) {
+    public static void renderSlotHighlight(GuiGraphics guiGraphics, int x, int y, int width, int height) {
         RenderSystem.disableDepthTest();
         RenderSystem.colorMask(true, true, true, false);
-        GuiComponent.fill(pose, x, y, x + width, y + height, -2130706433);
+        guiGraphics.fill(x, y, x + width, y + height, -2130706433);
         RenderSystem.colorMask(true, true, true, true);
         RenderSystem.enableDepthTest();
     }

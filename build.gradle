@@ -26,6 +26,13 @@ loom {
                 "custommachinerymekanism.mixins.json"
         ]
 
+        runs {
+            client {
+                property 'mixin.env.remapRefMap', 'true'
+                property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            }
+        }
+
         // missing access transformers?
         // don't worry, you can still use them!
         // note that your AT *MUST* be located at
@@ -58,6 +65,11 @@ repositories {
         }
     }
     maven {
+        // location of the maven that hosts JEI files since January 2023
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
         name = "Mod maven"
         url = "https://modmaven.dev/"
         content {
@@ -86,10 +98,6 @@ repositories {
         }
     }
     maven {
-        name = 'BlameJared Maven'
-        url = 'https://maven.blamejared.com'
-    }
-    maven {
         name = "ldtteam Maven"
         url = "https://ldtteam.jfrog.io/ldtteam/modding/"
         content {
@@ -110,14 +118,23 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
 
     // Official mappings
-    mappings loom.officialMojangMappings()
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${project.minecraft_version}:${project.parchment_version}@zip")
+    }
+
+    // Architectury
+    modApi("dev.architectury:architectury-forge:${project.architectury_version}")
+    modApi("me.shedaniel.cloth:cloth-config-forge:${project.cloth_config_version}")
 
     // Forge
     forge "net.minecraftforge:forge:${project.forge_version}"
 
     // Custom Machinery
-    api "frinn.custommachinery:CustomMachinery-api:${project.minecraft_version}-${project.custommachinery_version}"
-    modLocalRuntime modCompileOnly("frinn.custommachinery:CustomMachinery-forge:${project.minecraft_version}-${project.custommachinery_version}")
+    api "curse.maven:custommachinery-fork-1058446:${project.custommachinery_file_id}"
+    //api files("libs/CustomMachinery-forge-1.20.1-0.10.0.jar")
+    modLocalRuntime modCompileOnly("curse.maven:custommachinery-fork-1058446:${project.custommachinery_file_id}")
+    //modLocalRuntime modCompileOnly(files("libs/CustomMachinery-forge-1.20.1-0.10.0.jar"))
 
     //JEI
     modCompileOnly("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
@@ -131,14 +148,11 @@ dependencies {
     modLocalRuntime modCompileOnly("dev.latvian.mods:kubejs-forge:${rootProject.kubejs_version}")
     localRuntime("io.github.llamalad7:mixinextras-forge:0.2.0-rc.4")
 
-    //Crafttweaker
-    modLocalRuntime modCompileOnly("com.blamejared.crafttweaker:CraftTweaker-forge-${project.minecraft_version}:${project.ct_version}")
-
     //The one probe
-    modLocalRuntime("mcjty.theoneprobe:theoneprobe:${project.top_version}") {transitive = false}
+    modLocalRuntime("curse.maven:the-one-probe-245211:${project.top_file_id}") {transitive = false}
 
     //Jade
-    modLocalRuntime modCompileOnly("curse.maven:jade-324717:4433884")
+    modLocalRuntime modCompileOnly("curse.maven:jade-324717:5339264")
 }
 
 processResources {

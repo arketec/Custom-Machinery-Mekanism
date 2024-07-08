@@ -5,17 +5,17 @@ import fr.frinn.custommachinery.api.crafting.IMachineRecipe;
 import fr.frinn.custommachinery.api.integration.jei.IJEIElementRenderer;
 import fr.frinn.custommachinerymekanism.client.ClientHandler;
 import fr.frinn.custommachinerymekanism.common.guielement.ChemicalGuiElement;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class ChemicalGuiElementJeiRenderer<E extends ChemicalGuiElement<?>> implements IJEIElementRenderer<E> {
 
     @Override
-    public void renderElementInJEI(PoseStack matrix, E element, IMachineRecipe recipe, int mouseX, int mouseY) {
+    public void renderElementInJEI(GuiGraphics guiGraphics, E element, IMachineRecipe recipe, int mouseX, int mouseY) {
         int posX = element.getX() - 1;
         int posY = element.getY() - 1;
         int width = element.getWidth();
         int height = element.getHeight();
         ClientHandler.bindTexture(element.getTexture());
-        GuiComponent.blit(matrix, posX, posY, 0, 0, width, height, width, height);
+        guiGraphics.blit(element.getTexture(), posX, posY, 0, 0, width, height, width, height);
     }
 }

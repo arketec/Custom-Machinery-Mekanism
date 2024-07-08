@@ -5,6 +5,7 @@ import fr.frinn.custommachinery.api.guielement.IMachineScreen;
 import fr.frinn.custommachinerymekanism.Registration;
 import fr.frinn.custommachinerymekanism.common.component.SlurryMachineComponent;
 import fr.frinn.custommachinerymekanism.common.guielement.SlurryGuiElement;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 
 public class SlurryGuiElementWidget extends ChemicalGuiElementWidget<SlurryMachineComponent, SlurryGuiElement> {
@@ -16,5 +17,10 @@ public class SlurryGuiElementWidget extends ChemicalGuiElementWidget<SlurryMachi
     @Override
     public MachineComponentType<SlurryMachineComponent> componentType() {
         return Registration.SLURRY_MACHINE_COMPONENT.get();
+    }
+
+    @Override
+    protected void updateWidgetNarration(NarrationElementOutput arg) {
+        
     }
 }

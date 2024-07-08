@@ -1,7 +1,6 @@
 package fr.frinn.custommachinerymekanism.client.render.element;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import fr.frinn.custommachinery.api.component.MachineComponentType;
 import fr.frinn.custommachinery.api.guielement.IMachineScreen;
 import fr.frinn.custommachinery.impl.guielement.TexturedGuiElementWidget;
@@ -19,6 +18,7 @@ import mekanism.client.render.MekanismRenderer;
 import mekanism.common.MekanismLang;
 import mekanism.common.util.ChemicalUtil;
 import mekanism.common.util.text.TextUtils;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
@@ -33,9 +33,10 @@ public abstract class ChemicalGuiElementWidget<C extends ChemicalMachineComponen
 
     public abstract MachineComponentType<C> componentType();
 
+
     @Override
-    public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-        super.renderButton(poseStack, mouseX, mouseY, partialTicks);
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        super.m_87963_(guiGraphics, mouseX, mouseY, partialTicks);
         this.getScreen().getTile().getComponentManager().getComponentHandler(componentType()).flatMap(gasHandler -> gasHandler.getComponentForID(this.getElement().getComponentId())).ifPresent(component -> {
             ChemicalStack<?> stack = component.getStack();
             if(!stack.isEmpty()) {
@@ -50,14 +51,14 @@ public abstract class ChemicalGuiElementWidget<C extends ChemicalMachineComponen
                 }
 
                 Chemical<?> chemical = stack.getType();
-                MekanismRenderer.color(chemical);
-                GuiUtils.drawTiledSprite(poseStack, this.x + 1, this.y + 1, this.height - 2, this.width - 2, desiredHeight, MekanismRenderer.getSprite(chemical.getIcon()), 16, 16, 100, TilingDirection.UP_RIGHT, false);
-                MekanismRenderer.resetColor();
+                MekanismRenderer.color(guiGraphics, chemical);
+                GuiUtils.drawTiledSprite(guiGraphics, this.getX() + 1, this.getY() + 1, this.height - 2, this.width - 2, desiredHeight, MekanismRenderer.getSprite(chemical.getIcon()), 16, 16, 100, TilingDirection.UP_RIGHT, false);
+                MekanismRenderer.resetColor(guiGraphics);
                 RenderSystem.disableBlend();
             }
         });
         if (this.isHoveredOrFocused() && this.getElement().highlight())
-            ClientHandler.renderSlotHighlight(poseStack, this.x + 1, this.y + 1, this.width - 2, this.height - 2);
+            ClientHandler.renderSlotHighlight(guiGraphics, this.getX() + 1, this.getY() + 1, this.width - 2, this.height - 2);
     }
 
     @Override
