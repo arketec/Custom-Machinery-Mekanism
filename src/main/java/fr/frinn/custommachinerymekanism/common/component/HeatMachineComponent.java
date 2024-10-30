@@ -1,6 +1,7 @@
 package fr.frinn.custommachinerymekanism.common.component;
 
 import com.google.common.collect.Maps;
+import fr.frinn.custommachinery.api.ICustomMachineryAPI;
 import fr.frinn.custommachinery.api.codec.NamedCodec;
 import fr.frinn.custommachinery.api.component.ComponentIOMode;
 import fr.frinn.custommachinery.api.component.IDumpComponent;
@@ -53,7 +54,7 @@ public class HeatMachineComponent extends AbstractMachineComponent implements IS
         this.baseTemp = baseTemp;
         this.config = config.build(this);
         this.config.setCallback(this::onConfigChange);
-        this.capacitor = BasicHeatCapacitor.create(capacity, inverseConductionCoefficient, inverseInsulationCoefficient, () -> baseTemp, this);
+        this.capacitor = BasicHeatCapacitor.create(capacity, inverseConductionCoefficient < 1 ? 1: inverseConductionCoefficient, inverseInsulationCoefficient, () -> baseTemp, this);
         this.handler = LazyOptional.of(() -> this);
     }
 
@@ -183,7 +184,12 @@ public class HeatMachineComponent extends AbstractMachineComponent implements IS
         public Template(double capacity, double baseTemp, double inverseConductionCoefficient, double inverseInsulationCoefficient, SideConfig.Template config) {
             this.capacity = capacity;
             this.baseTemp = baseTemp;
-            this.inverseConductionCoefficient = inverseConductionCoefficient;
+            if (inverseConductionCoefficient < 1) {
+                ICustomMachineryAPI.INSTANCE.logger().warn("Property \"conduction\" cannot be less than 1, setting \"conduction\" = 1");
+                this.inverseConductionCoefficient = 1d;
+            } else {
+                this.inverseConductionCoefficient = inverseConductionCoefficient;
+            }
             this.inverseInsulationCoefficient = inverseInsulationCoefficient;
             this.config = config;
         }
