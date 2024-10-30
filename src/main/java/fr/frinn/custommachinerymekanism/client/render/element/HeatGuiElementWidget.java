@@ -33,9 +33,10 @@ public class HeatGuiElementWidget extends TexturedGuiElementWidget<HeatGuiElemen
         this.getScreen().getTile().getComponentManager().getComponent(Registration.HEAT_MACHINE_COMPONENT.get()).ifPresent(component -> {
             double fillPercent = component.getHeatFillPercent();
             int barHeight = Mth.clamp((int)(fillPercent * (double)this.height), 1, this.height - 1);
-            guiGraphics.fill(this.getX() + 1, this.getX() + this.height - barHeight, this.getX() + this.width - 1, this.getY() + this.height - 1, FastColor.ARGB32.color(200, 255, 128, 0));
+            guiGraphics.blit(this.getElement().getFilledTexture(), this.getX(), this.getY() + this.height - barHeight, 0, this.height - barHeight, this.width, barHeight, this.width, this.height);
         });
-        if (this.isHoveredOrFocused() && this.getElement().highlight())
+
+        if (this.isHovered() && this.getElement().highlight())
             ClientHandler.renderSlotHighlight(guiGraphics, this.getX() + 1, this.getY() + 1, this.width - 2, this.height - 2);
     }
 

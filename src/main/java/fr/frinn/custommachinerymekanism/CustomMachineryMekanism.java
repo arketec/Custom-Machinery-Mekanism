@@ -85,4 +85,7 @@ public class CustomMachineryMekanism {
             });
         }
     }
+    public static ResourceLocation rl(String path) {
+        return ResourceLocation.tryBuild(MODID, path);
+    }
 }

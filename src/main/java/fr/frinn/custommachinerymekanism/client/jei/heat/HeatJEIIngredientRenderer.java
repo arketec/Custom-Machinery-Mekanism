@@ -42,7 +42,10 @@ public class HeatJEIIngredientRenderer extends JEIIngredientRenderer<Heat, HeatG
         int width = this.element.getWidth();
         int height = this.element.getHeight();
 
-        guiGraphics.fill(0, 0, width - 2, height - 2, FastColor.ARGB32.color(200, 255, 128, 0));
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().translate(0, 0, 10);
+        guiGraphics.blit(this.element.getFilledTexture(), -1, -1, 0, 0, width, height, width, height);
+        guiGraphics.pose().popPose();
     }
 
     @Override
